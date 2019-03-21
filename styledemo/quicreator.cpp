@@ -176,14 +176,14 @@ void QUICreator::initListWidget()
 
 void QUICreator::initListWidget_2()
 {
-    QStringList items;
-    for (int i = 1; i <= 30; i++) {
-        items << QString("元素%1").arg(i);
-    }
+//    QStringList items;
+//    for (int i = 1; i <= 30; i++) {
+//        items << QString("元素%1").arg(i);
+//    }
 
-    ui->listWidget_2->addItems(items);
-    ui->cbox1->addItems(items);
-    ui->cbox2->addItems(items);
+//    ui->listWidget_2->addItems(items);
+//    ui->cbox1->addItems(items);
+//    ui->cbox2->addItems(items);
 }
 
 void QUICreator::initOther()

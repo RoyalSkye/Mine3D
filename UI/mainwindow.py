@@ -1,8 +1,8 @@
 import os
 import xlrd
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5 import QtWidgets, QtGui
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
 from UI.quicreator import Ui_QUICreator
 
 class MainWindow(QMainWindow, Ui_QUICreator):
@@ -11,6 +11,19 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.initTableWidget()
+        self.initfont()
+        self.initEmailBox()
+        self.initreceiver()
+        self.attachList = []  # 附件列表
+
+    def initfont(self):
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.tableWidget.setFont(font)
+        self.importFile.setFont(font)
+        self.label.setFont(font)
+        self.label_4.setFont(font)
+        self.training.setFont(font)
 
     def initTableWidget(self):
         import database
@@ -45,6 +58,44 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         else:
             print("data is null!")
 
+    def initEmailBox(self):
+        from PyQt5.QtWidgets import QFileSystemModel
+        model = QFileSystemModel()
+        dir = '/'  # mac根路径
+        model.setRootPath(dir)
+        self.attachment.setModel(model)
+        self.attachment.setColumnWidth(0, 300)
+        self.attachment.setColumnWidth(1, 100)
+        self.attachment.setColumnWidth(2, 100)
+        # self.attachment.setColumnHidden(1, True)
+        self.attachment.setRootIndex(model.index(dir))
+        self.attachment.doubleClicked.connect(self.getpath)
+
+    def initreceiver(self):
+        # self.receiver = QTreeWidget()
+        self.receiver.clear()
+        self.receiver.setColumnCount(2)
+        self.receiver.setColumnWidth(0,300)
+        self.receiver.setHeaderLabels(['Username', 'Email'])
+        root1 = QTreeWidgetItem(self.receiver)
+        root2 = QTreeWidgetItem(self.receiver)
+        root1.setText(0, 'Administrator')
+        root2.setText(0, 'Staff')
+        # get userinfo
+        import database
+        userinfo = database.getAlluser()
+        for u in userinfo:
+            child = QTreeWidgetItem()
+            child.setText(0, u[0])
+            child.setText(1, u[1])
+            child.setCheckState(0, Qt.Checked)
+            if u[-1] == 'admin':
+                root1.addChild(child)
+            elif u[-1] == 'staff':
+                root2.addChild(child)
+        self.receiver.expandAll()
+
+
     # 槽函数会执行2次if不写装饰器@pyqtSlot()
     @pyqtSlot()
     def on_importFile_clicked(self):
@@ -72,3 +123,59 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                     db.insertminedata(table.row_values(i))
             self.importStatus.setText("import successfully!")
             self.initTableWidget()
+
+    @pyqtSlot()
+    def on_clearflie_clicked(self):
+        self.File.clear()
+        self.attachList = []
+
+    @pyqtSlot()
+    def on_clearemail_clicked(self):
+        self.MailContext.clear()
+        self.head.setText('请输入标题')
+        self.File.clear()
+        self.initreceiver()
+        self.initEmailBox()
+        self.maillabel.clear()
+        self.attachList = []
+
+    @pyqtSlot()
+    def on_sendemail_clicked(self):
+        from generateEmail import sendmail
+        to = []
+        rootcount = self.receiver.topLevelItemCount()
+        for i in range(0, rootcount):
+            root = self.receiver.topLevelItem(i)
+            childcount = QTreeWidgetItem.childCount(root)
+            for j in range(0, childcount):
+                child = QTreeWidgetItem.child(root, j)
+                if child.checkState(0) == Qt.Checked:
+                    to.append(child.text(1))
+        head = self.head.text()
+        attachment = self.File.text()
+        context = self.MailContext.toPlainText()
+        # self.MailContext.document().findBlockByLineNumber(0).text()
+        # print(to)
+        # print(head)
+        # print(attachment)
+        # print(context)
+        # print(self.attachList)
+        if to and head:
+            # pass
+            msg = sendmail(to, head, self.attachList, context)
+            self.maillabel.setText(msg)
+        else:
+            self.maillabel.setText('发送状态: 收件人或标题为空！')
+
+    def getpath(self):
+        import re
+        index = self.attachment.currentIndex()
+        model = index.model()
+        file_path = model.filePath(index)
+        result = re.findall(r'\.[^.\\/:*?"<>|\r\n]+$', file_path)
+        if result:
+            self.attachList.append(file_path)
+            if self.File.text():
+                self.File.setText(self.File.text() +', ' + file_path)
+            else:
+                self.File.setText(file_path)

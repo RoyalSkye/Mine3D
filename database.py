@@ -99,3 +99,15 @@ def getUserByusername(username, password):  # for login
     finally:
         cur.close()
         db.close()
+
+def getAlluser():  # for login
+    db, cur = gerConnection()
+    try:
+        cur.execute("select username, email, identity from user")  # 防止SQL注入
+        results = cur.fetchall()
+        return results
+    except Exception as e:
+        raise e
+    finally:
+        cur.close()
+        db.close()
