@@ -90,9 +90,9 @@ def getUserByusername(username, password):  # for login
     try:
         # cur.execute(sql)
         row_count = cur.execute("select * from user where username = %s and password = %s", (username, password))  # 防止SQL注入
-        print(row_count)
+        # print(row_count)
         results = cur.fetchall()
-        print(results)
+        # print(results)
         return results
     except Exception as e:
         raise e
@@ -107,6 +107,21 @@ def getAlluser():  # for login
         results = cur.fetchall()
         return results
     except Exception as e:
+        raise e
+    finally:
+        cur.close()
+        db.close()
+
+def updateUserpwd(id, password):
+    db, cur = gerConnection()
+    try:
+        sql = "update user set password = %s where id = %s" % (password, id)
+        # print(sql)
+        res = cur.execute(sql)
+        db.commit()
+        return res
+    except Exception as e:
+        db.rollback()
         raise e
     finally:
         cur.close()

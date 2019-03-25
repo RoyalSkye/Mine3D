@@ -78,45 +78,45 @@ void QUICreator::initTableWidget()
 
 void QUICreator::initTreeWidget()
 {
-    ui->treeWidget->clear();
-    ui->treeWidget->setHeaderLabel(" 树状列表控件");
+//    ui->treeWidget->clear();
+//    ui->treeWidget->setHeaderLabel(" 树状列表控件");
 
-    QTreeWidgetItem *group1 = new QTreeWidgetItem(ui->treeWidget);
-    group1->setText(0, "父元素1");
-    group1->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-    group1->setCheckState(0, Qt::PartiallyChecked);
+//    QTreeWidgetItem *group1 = new QTreeWidgetItem(ui->treeWidget);
+//    group1->setText(0, "父元素1");
+//    group1->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+//    group1->setCheckState(0, Qt::PartiallyChecked);
 
-    QTreeWidgetItem *subItem11 = new QTreeWidgetItem(group1);
-    subItem11->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-    subItem11->setText(0, "子元素1");
-    subItem11->setCheckState(0, Qt::Checked);
+//    QTreeWidgetItem *subItem11 = new QTreeWidgetItem(group1);
+//    subItem11->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+//    subItem11->setText(0, "子元素1");
+//    subItem11->setCheckState(0, Qt::Checked);
 
-    QTreeWidgetItem *subItem12 = new QTreeWidgetItem(group1);
-    subItem12->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-    subItem12->setText(0, "子元素2");
-    subItem12->setCheckState(0, Qt::Unchecked);
+//    QTreeWidgetItem *subItem12 = new QTreeWidgetItem(group1);
+//    subItem12->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+//    subItem12->setText(0, "子元素2");
+//    subItem12->setCheckState(0, Qt::Unchecked);
 
-    QTreeWidgetItem *subItem13 = new QTreeWidgetItem(group1);
-    subItem13->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-    subItem13->setText(0, "子元素3");
-    subItem13->setCheckState(0, Qt::Unchecked);
+//    QTreeWidgetItem *subItem13 = new QTreeWidgetItem(group1);
+//    subItem13->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+//    subItem13->setText(0, "子元素3");
+//    subItem13->setCheckState(0, Qt::Unchecked);
 
-    QTreeWidgetItem *group2 = new QTreeWidgetItem(ui->treeWidget);
-    group2->setText(0, "父元素2");
-    group2->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-    group2->setCheckState(0, Qt::Unchecked);
+//    QTreeWidgetItem *group2 = new QTreeWidgetItem(ui->treeWidget);
+//    group2->setText(0, "父元素2");
+//    group2->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+//    group2->setCheckState(0, Qt::Unchecked);
 
-    QTreeWidgetItem *subItem21 = new QTreeWidgetItem(group2);
-    subItem21->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-    subItem21->setText(0, "子元素1");
-    subItem21->setCheckState(0, Qt::Unchecked);
+//    QTreeWidgetItem *subItem21 = new QTreeWidgetItem(group2);
+//    subItem21->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+//    subItem21->setText(0, "子元素1");
+//    subItem21->setCheckState(0, Qt::Unchecked);
 
-    QTreeWidgetItem *subItem211 = new QTreeWidgetItem(subItem21);
-    subItem211->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-    subItem211->setText(0, "子子元素1");
-    subItem211->setCheckState(0, Qt::Unchecked);
+//    QTreeWidgetItem *subItem211 = new QTreeWidgetItem(subItem21);
+//    subItem211->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+//    subItem211->setText(0, "子子元素1");
+//    subItem211->setCheckState(0, Qt::Unchecked);
 
-    ui->treeWidget->expandAll();
+//    ui->treeWidget->expandAll();
 }
 
 void QUICreator::initTreeWidget_2()
@@ -164,14 +164,14 @@ void QUICreator::initTreeWidget_2()
 
 void QUICreator::initListWidget()
 {
-    QStringList items;
-    for (int i = 1; i <= 30; i++) {
-        items << QString("元素%1").arg(i);
-    }
+//    QStringList items;
+//    for (int i = 1; i <= 30; i++) {
+//        items << QString("元素%1").arg(i);
+//    }
 
-    ui->listWidget->addItems(items);
-    ui->cbox1->addItems(items);
-    ui->cbox2->addItems(items);
+//    ui->listWidget->addItems(items);
+//    ui->cbox1->addItems(items);
+//    ui->cbox2->addItems(items);
 }
 
 void QUICreator::initListWidget_2()

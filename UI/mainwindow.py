@@ -1,5 +1,5 @@
-import os
-import xlrd
+import os, xlrd
+import user, database
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
@@ -16,6 +16,20 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         self.initreceiver()
         self.attachList = []  # 附件列表
 
+        # simulate login
+        userinfo = database.getUserByusername("skye", "123456")
+        if userinfo:
+            user.user.setUser(userinfo[0])
+        else:
+            print("用户名密码错误!")
+
+        # 判断用户权限，如果为普通用户，则将groupbox设置为不可选状态
+        if(user.user.identify == "admin"):
+            pass
+        else:
+            self.MailgroupBox.setChecked(False)
+            self.MailgroupBox.toggled.connect(self.setuncheckable)
+
     def initfont(self):
         font = QtGui.QFont()
         font.setPointSize(11)
@@ -26,7 +40,6 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         self.training.setFont(font)
 
     def initTableWidget(self):
-        import database
         minedata = database.getminedata()
         if minedata:
             self.tableWidget.setRowCount(len(minedata))
@@ -82,7 +95,6 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         root1.setText(0, 'Administrator')
         root2.setText(0, 'Staff')
         # get userinfo
-        import database
         userinfo = database.getAlluser()
         for u in userinfo:
             child = QTreeWidgetItem()
@@ -107,7 +119,6 @@ class MainWindow(QMainWindow, Ui_QUICreator):
 
     @pyqtSlot()
     def on_training_clicked(self):
-        import database as db
         filename = self.path.text()
         if(filename == ''):
             pass
@@ -120,7 +131,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 # print(table.nrows)
                 for i in range(1, table.nrows):
                     # print(table.row_values(i))
-                    db.insertminedata(table.row_values(i))
+                    database.insertminedata(table.row_values(i))
             self.importStatus.setText("import successfully!")
             self.initTableWidget()
 
@@ -167,6 +178,33 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         else:
             self.maillabel.setText('发送状态: 收件人或标题为空！')
 
+    @pyqtSlot()
+    def on_accountsource_clicked(self):
+        oldpwd = self.oldpwd.text()
+        newpwd1 = self.newpwd1.text()
+        newpwd2 = self.newpwd2.text()
+        if user.user.password != oldpwd:
+            self.accountstatus.setText("oldpassword is incorrect!")
+        elif len(newpwd1) < 6 or len(newpwd2) < 6:
+            self.accountstatus.setText("newpassword is too simple!")
+        elif newpwd1 != newpwd2:
+            self.accountstatus.setText("two newpasswords not the same!")
+        elif user.user.password == newpwd1:
+            self.accountstatus.setText("newpassword is the same as the old!")
+        else:
+            if database.updateUserpwd(user.user.id, newpwd1) == 1:
+                self.accountstatus.setText("修改密码成功!")
+            else:
+                self.accountstatus.setText("MySQLError: 修改密码失败!")
+
+    @pyqtSlot()
+    def on_emailsource_clicked(self):
+        smtpserver = self.smtpserver
+        port = self.port
+        sendemail = self.sendemail
+        emailpwd = self.emailpwd
+        # to be continued - 03/25/2019
+
     def getpath(self):
         import re
         index = self.attachment.currentIndex()
@@ -179,3 +217,6 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 self.File.setText(self.File.text() +', ' + file_path)
             else:
                 self.File.setText(file_path)
+
+    def setuncheckable(self):
+        self.MailgroupBox.setChecked(False)
