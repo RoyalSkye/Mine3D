@@ -3,13 +3,13 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
 import re
+import user
 
 def sendmail(to, head, attachList, context):
-    smtp_server = 'smtp.qq.com'
-    pwd = 'rkfazvbncpsebfbi'
-    port = 465
-    sender = 'a19970417b@qq.com'
-    msg = ''
+    smtp_server = user.user.smtpserver  # 'smtp.qq.com'
+    pwd = user.user.emailpwd  # 'rkfazvbncpsebfbi'
+    port = user.user.port  # 465
+    sender = user.user.email  # 'a19970417b@qq.com'
     # receivers = ['royal_skye@outlook.com']
 
     # 创建一个带附件的实例

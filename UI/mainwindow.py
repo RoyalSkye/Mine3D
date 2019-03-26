@@ -30,6 +30,8 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             self.MailgroupBox.setChecked(False)
             self.MailgroupBox.toggled.connect(self.setuncheckable)
 
+        self.initemailsetting()
+
     def initfont(self):
         font = QtGui.QFont()
         font.setPointSize(11)
@@ -107,6 +109,15 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 root2.addChild(child)
         self.receiver.expandAll()
 
+    def initemailsetting(self):
+        if user.user.smtpserver:
+            self.smtpserver.setText(user.user.smtpserver)
+        if user.user.port:
+            self.port.setText(str(user.user.port))
+        if user.user.email:
+            self.emailsender.setText(user.user.email)
+        if user.user.emailpwd:
+            self.emailpwd.setText(user.user.emailpwd)
 
     # 槽函数会执行2次if不写装饰器@pyqtSlot()
     @pyqtSlot()
@@ -192,18 +203,30 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         elif user.user.password == newpwd1:
             self.accountstatus.setText("newpassword is the same as the old!")
         else:
-            if database.updateUserpwd(user.user.id, newpwd1) == 1:
+            u = user.User()
+            u.setUser1(id=user.user.id, password=newpwd1)
+            user.user.setUser1(password=newpwd1)
+            if database.updateUserpwd(u) == 1:
                 self.accountstatus.setText("修改密码成功!")
             else:
                 self.accountstatus.setText("MySQLError: 修改密码失败!")
 
     @pyqtSlot()
     def on_emailsource_clicked(self):
-        smtpserver = self.smtpserver
-        port = self.port
-        sendemail = self.sendemail
-        emailpwd = self.emailpwd
-        # to be continued - 03/25/2019
+        smtpserver = self.smtpserver.text()
+        port = self.port.text()
+        sendemail = self.emailsender.text()
+        emailpwd = self.emailpwd.text()
+        if smtpserver and port and sendemail and emailpwd:
+            u = user.User()
+            u.setUser1(smtpserver=smtpserver, port=port, email=sendemail, emailpwd=emailpwd, id=user.user.id)
+            user.user.setUser1(smtpserver=smtpserver, port=port, email=sendemail, emailpwd=emailpwd)
+            if database.updateUserpwd(u) == 1:
+                self.emailstatus.setText("修改成功!")
+            else:
+                self.emailstatus.setText("未进行任何修改 \nor MySQLError: 修改失败!")
+        else:
+            self.emailstatus.setText("不能为空or输入非法!")
 
     def getpath(self):
         import re

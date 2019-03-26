@@ -1,4 +1,5 @@
 import pymysql
+import user
 
 def gerConnection():
     db = pymysql.connect(host="localhost", user="root", password="rx806090733wx", db="qt", port=3306)
@@ -112,11 +113,14 @@ def getAlluser():  # for login
         cur.close()
         db.close()
 
-def updateUserpwd(id, password):
+def updateUserpwd(u):
     db, cur = gerConnection()
     try:
-        sql = "update user set password = %s where id = %s" % (password, id)
-        # print(sql)
+        if u.password and u.id:
+            sql = "update user set password = '%s' where id = %s" % (u.password, u.id)
+        elif u.smtpserver and u.port and u.email and u.emailpwd and u.id:
+            sql = "update user set smtpserver = '%s', emailpwd = '%s', emailport = '%s', email = '%s' where id = %s" % (u.smtpserver, u.emailpwd, u.port, u.email, u.id)
+        print(sql)
         res = cur.execute(sql)
         db.commit()
         return res
