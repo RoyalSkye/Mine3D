@@ -158,7 +158,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         self.File.clear()
         self.initreceiver()
         self.initEmailBox()
-        self.maillabel.clear()
+        self.maillabel.setText('发送状态: ')
         self.attachList = []
 
     @pyqtSlot()
@@ -185,7 +185,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         if to and head:
             # pass
             msg = sendmail(to, head, self.attachList, context)
-            self.maillabel.setText(msg)
+            self.maillabel.setText('发送状态: '+msg)
         else:
             self.maillabel.setText('发送状态: 收件人或标题为空！')
 

@@ -4,13 +4,10 @@
     <list default="true" id="4ce7bef1-670c-4f00-a631-d7c562f5188f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/mainwindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/mainwindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/quicreator.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/quicreator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/quicreator.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UI/quicreator.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generateDocx.py" beforeDir="false" afterPath="$PROJECT_DIR$/generateDocx.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generateEmail.py" beforeDir="false" afterPath="$PROJECT_DIR$/generateEmail.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styledemo/quicreator.ui" beforeDir="false" afterPath="$PROJECT_DIR$/styledemo/quicreator.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styledemo/styledemo.pro.user" beforeDir="false" afterPath="$PROJECT_DIR$/styledemo/styledemo.pro.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/user.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,53 +17,32 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/20190302$database.coverage" NAME="database Coverage Results" MODIFIED="1551876514543" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/20190302$main.coverage" NAME="main Coverage Results" MODIFIED="1553607022027" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/20190302$generateDocx.coverage" NAME="generateDocx Coverage Results" MODIFIED="1551957537126" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/20190302$main.coverage" NAME="main Coverage Results" MODIFIED="1554209366700" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/20190302$generateDocx.coverage" NAME="generateDocx Coverage Results" MODIFIED="1554299355173" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/20190302$email.coverage" NAME="email Coverage Results" MODIFIED="1553162334411" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/20190302$test.coverage" NAME="test Coverage Results" MODIFIED="1552014535254" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/UI/mainwindow.py">
+        <entry file="file://$PROJECT_DIR$/generateDocx.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="588">
-              <caret line="228" column="33" selection-start-line="228" selection-start-column="33" selection-end-line="228" selection-end-column="33" />
+            <state relative-caret-position="225">
+              <caret line="15" column="37" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#0#25#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user.py">
+        <entry file="file://$PROJECT_DIR$/generateDocxtmp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="24" column="61" selection-start-line="24" selection-start-column="56" selection-end-line="24" selection-end-column="61" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/generateEmail.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="30" column="20" lean-forward="true" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
+            <state relative-caret-position="261">
+              <caret line="100" column="24" lean-forward="true" selection-start-line="100" selection-start-column="24" selection-end-line="100" selection-end-column="24" />
               <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-50">
-              <caret line="93" column="26" lean-forward="true" selection-start-line="93" selection-start-column="26" selection-end-line="93" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
+                <element signature="e#1842#1867#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -94,10 +70,12 @@
       <find>treeView</find>
       <find>userinfo</find>
       <find>receivers</find>
-      <find>getpath</find>
       <find>print</find>
       <find>database</find>
       <find>db</find>
+      <find>subject</find>
+      <find>File</find>
+      <find>getpath</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -107,7 +85,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/UI/database.py" />
-        <option value="$PROJECT_DIR$/generateDocx.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/helper.py" />
         <option value="$PROJECT_DIR$/UI/resource/psblack.css" />
@@ -118,10 +95,12 @@
         <option value="$PROJECT_DIR$/email.py" />
         <option value="$PROJECT_DIR$/UI/quicreator.py" />
         <option value="$PROJECT_DIR$/settings.py" />
-        <option value="$PROJECT_DIR$/generateEmail.py" />
         <option value="$PROJECT_DIR$/user.py" />
         <option value="$PROJECT_DIR$/database.py" />
+        <option value="$PROJECT_DIR$/generateEmail.py" />
         <option value="$PROJECT_DIR$/UI/mainwindow.py" />
+        <option value="$PROJECT_DIR$/generateDocxtmp.py" />
+        <option value="$PROJECT_DIR$/generateDocx.py" />
       </list>
     </option>
   </component>
@@ -185,7 +164,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.generateDocx">
     <configuration name="database" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="20190302" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -298,10 +277,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.generateDocx" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.email" />
         <item itemvalue="Python.test" />
-        <item itemvalue="Python.generateDocx" />
         <item itemvalue="Python.database" />
       </list>
     </recent_temporary>
@@ -336,17 +315,21 @@
       <workItem from="1553230841059" duration="1232000" />
       <workItem from="1553512107406" duration="7753000" />
       <workItem from="1553598515280" duration="6815000" />
+      <workItem from="1553691519239" duration="1775000" />
+      <workItem from="1554183233499" duration="73000" />
+      <workItem from="1554203424169" duration="4010000" />
+      <workItem from="1554293493898" duration="5476000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80694000" />
+    <option name="totallyTimeSpent" value="92028000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.31196582" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32661784" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -463,19 +446,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/generateDocx.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="843">
-          <caret line="137" lean-forward="true" selection-start-line="137" selection-end-line="137" />
-          <folding>
-            <element signature="e#1842#1867#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/settings.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/UI/quicreator.ui">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
@@ -490,13 +460,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/generateEmail.py">
+    <entry file="file://$PROJECT_DIR$/settings.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file:///anaconda3/envs/tensorflow/lib/python3.6/email/header.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="20" lean-forward="true" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-2331">
+          <caret line="216" selection-start-line="216" selection-end-line="216" />
         </state>
       </provider>
     </entry>
@@ -507,22 +477,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/UI/mainwindow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2175">
+          <caret line="145" column="39" lean-forward="true" selection-start-line="145" selection-start-column="39" selection-end-line="145" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/database.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-50">
-          <caret line="93" column="26" lean-forward="true" selection-start-line="93" selection-start-column="26" selection-end-line="93" selection-end-column="26" />
+        <state relative-caret-position="1380">
+          <caret line="93" column="26" selection-start-line="93" selection-start-column="26" selection-end-line="93" selection-end-column="26" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/UI/mainwindow.py">
+    <entry file="file://$PROJECT_DIR$/generateEmail.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="228" column="33" selection-start-line="228" selection-start-column="33" selection-end-line="228" selection-end-column="33" />
+        <state relative-caret-position="270">
+          <caret line="18" column="29" lean-forward="true" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generateDocxtmp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="100" column="24" lean-forward="true" selection-start-line="100" selection-start-column="24" selection-end-line="100" selection-end-column="24" />
+          <folding>
+            <element signature="e#1842#1867#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generateDocx.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="37" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>

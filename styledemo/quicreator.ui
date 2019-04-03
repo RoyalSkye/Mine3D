@@ -61,7 +61,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="dataTab">
        <attribute name="title">
@@ -362,7 +362,30 @@
        <attribute name="title">
         <string>生成报表</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_5"/>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QTabWidget" name="tabWidget_2">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="cover">
+           <attribute name="title">
+            <string>封皮</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="catalog">
+           <attribute name="title">
+            <string>目录</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="text">
+           <attribute name="title">
+            <string>正文</string>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tab5">
        <attribute name="title">

@@ -14,10 +14,9 @@ def sendmail(to, head, attachList, context):
 
     # 创建一个带附件的实例
     message = MIMEMultipart()
-    message['From'] = Header("a19970417b@qq.com", 'utf-8')
-    message['To'] = Header("a19970417b@qq.com", 'utf-8')
-    subject = head
-    message['Subject'] = Header(subject, 'utf-8')
+    message['From'] = Header(str(user.user.email), 'utf-8')
+    message['To'] = Header(', '.join(to), 'utf-8')
+    message['Subject'] = Header(str(head), 'utf-8')
     # 邮件正文内容
     message.attach(MIMEText(context, 'plain', 'utf-8'))
 
@@ -29,12 +28,10 @@ def sendmail(to, head, attachList, context):
         # print(filename[0])
         # print(filetype[0])
         # print(tmp)
-
         import time
         t = time.time()
         timestamp = int(t)
         newfilename = str(timestamp) + str(i) + filetype[0]
-
         att1 = MIMEText(open(attachList[i], 'rb').read(), 'base64', 'utf-8')
         att1["Content-Type"] = 'application/octet-stream'
         att1["Content-Disposition"] = 'attachment; filename=%s' % newfilename
