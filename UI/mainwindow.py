@@ -1,8 +1,9 @@
 import os, xlrd
-import user, database
+import user, database, helper, generateDocx
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 from UI.quicreator import Ui_QUICreator
 
 class MainWindow(QMainWindow, Ui_QUICreator):
@@ -31,6 +32,8 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             self.MailgroupBox.toggled.connect(self.setuncheckable)
 
         self.initemailsetting()
+        self.initcover()
+        self.initdoc_1_tableview()
 
     def initfont(self):
         font = QtGui.QFont()
@@ -40,6 +43,45 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         self.label.setFont(font)
         self.label_4.setFont(font)
         self.training.setFont(font)
+
+    def initcover(self):
+        self.doc_heading.setText('露天采场矿岩与品位信息报告')
+        self.doc_company.setText('露天采场矿岩股份有限公司')
+        self.doc_code.setText(helper.Helper.generateTimestamp())
+        self.doc_reporter.setText(user.user.username)
+        self.doc_date.setText(helper.Helper.getdatetime())
+        self.doc_type.setText('常规更新')
+        self.doc_filename.setText('demo1')
+
+    def initdoc_1_tableview(self):
+        self.model = QStandardItemModel(10, 4)
+        tmp = ["矿区名称", "矿区编号", "管理单位", "单位编号", "操作人", "操作类型", "原始数据(个)", "新增数据(个)", "误差(更新前)", "准确率(更新前)",
+               "误差(更新后)", "准确率(更新后)", "上次检验日期", "上次检验记录编号", "原始资料审查问题记载", "历次定期检验问题记载", "审核日期(年/月/日)"]
+        self.doc_1_tableview.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.doc_1_tableview.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.doc_1_tableview.setSpan(7, 1, 1, 3)
+        self.doc_1_tableview.setSpan(8, 1, 1, 3)
+        self.doc_1_tableview.setSpan(9, 0, 1, 2)
+        self.doc_1_tableview.setSpan(9, 2, 1, 2)
+        count = 0
+        for row in range(7):
+            for column in range(2):
+                item = QStandardItem(tmp[count])
+                count += 1
+                item.setFlags(Qt.NoItemFlags)
+                item.setTextAlignment(Qt.AlignCenter)
+                self.model.setItem(row, 2*column, item)
+        for row in range(7, 10):
+            item = QStandardItem(tmp[count])
+            count += 1
+            item.setFlags(Qt.NoItemFlags)
+            item.setTextAlignment(Qt.AlignCenter)
+            self.model.setItem(row, 0, item)
+        self.doc_1_tableview.setModel(self.model)
+
+        # index = self.model.index(0, 0, QModelIndex())
+        # str1 = index.data()
+        # print(str1)
 
     def initTableWidget(self):
         minedata = database.getminedata()
@@ -52,7 +94,10 @@ class MainWindow(QMainWindow, Ui_QUICreator):
 
             for i in range(0, len(minedata)):
                 for j in range(0, len(minedata[i])):
-                    self.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem(str(minedata[i][j])))
+                    item = QtWidgets.QTableWidgetItem(str(minedata[i][j]))
+                    item.setTextAlignment(Qt.AlignCenter)
+                    self.tableWidget.setItem(i, j, item)
+                    # self.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem(str(minedata[i][j])))
 
             # problem 1: id = QtWidgets.QTableWidgetItem(entry[0])
             # if QtWidgets.QTableWidgetItem(id) the data will not shown on the table
@@ -122,8 +167,9 @@ class MainWindow(QMainWindow, Ui_QUICreator):
     # 槽函数会执行2次if不写装饰器@pyqtSlot()
     @pyqtSlot()
     def on_importFile_clicked(self):
-        projectpath = os.getcwd()
-        filename, filetype = QtWidgets.QFileDialog.getOpenFileName(self, "选择EXCEL文件", projectpath, "(*.xlsx;*.xls)") # 所有文件 (*.*)
+        # projectpath = os.getcwd()
+        rootpath = '/'
+        filename, filetype = QtWidgets.QFileDialog.getOpenFileName(self, "选择EXCEL文件", rootpath, "(*.xlsx;*.xls)") # 所有文件 (*.*)
         if len(filename) == 0:
             return
         self.path.setText(filename)
@@ -131,8 +177,9 @@ class MainWindow(QMainWindow, Ui_QUICreator):
     @pyqtSlot()
     def on_training_clicked(self):
         filename = self.path.text()
-        if(filename == ''):
-            pass
+        if filename == '' or not helper.Helper.validatepath(filename):
+            self.importStatus.setText("Error: please choose valid file")
+            return
         else:
             data = xlrd.open_workbook(filename)
             print(data.sheet_names())
@@ -227,6 +274,102 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 self.emailstatus.setText("未进行任何修改 \nor MySQLError: 修改失败!")
         else:
             self.emailstatus.setText("不能为空or输入非法!")
+
+    @pyqtSlot()
+    def on_doc_path_button_clicked(self):
+        directory = QFileDialog.getExistingDirectory(self, "请选择文件夹", "/")
+        if len(directory) == 0:
+            return
+        self.doc_path.setText(directory)
+
+    @pyqtSlot()
+    def on_doc_source_clicked(self):
+        from docx import Document
+        document = Document()
+        # generate cover
+        if self.doc_heading.text() and self.doc_company.text() and self.doc_code.text() and self.doc_type.text() and self.doc_reporter.text() and self.doc_date.text():
+            generateDocx.generateCover(document, doc_heading=self.doc_heading.text(), doc_company=self.doc_company.text(), doc_code=self.doc_code.text(),
+                                       doc_type=self.doc_type.text(), doc_reporter=self.doc_reporter.text(), doc_date=self.doc_date.text())
+        else:
+            self.doc_status.setText("Error: Existing blank lable")
+            return
+        # generate directory
+        catalog = []
+        catalogContent = []
+        if self.doc_1.isChecked():
+            catalog.append(1)
+            if self.doc_content1.text():
+                catalogContent.append(self.doc_content1.text())
+            else:
+                self.doc_status.setText("Error: Blank CatalogContent")
+                return
+        if self.doc_2.isChecked():
+            catalog.append(2)
+            if self.doc_content2.text():
+                catalogContent.append(self.doc_content2.text())
+            else:
+                self.doc_status.setText("Error: Blank CatalogContent")
+                return
+        if self.doc_3.isChecked():
+            catalog.append(3)
+            if self.doc_content3.text():
+                catalogContent.append(self.doc_content3.text())
+            else:
+                self.doc_status.setText("Error: Blank CatalogContent")
+                return
+        if self.doc_4.isChecked():
+            catalog.append(4)
+            if self.doc_content4.text():
+                catalogContent.append(self.doc_content4.text())
+            else:
+                self.doc_status.setText("Error: Blank CatalogContent")
+                return
+        generateDocx.generateCatalog(document, catalog, catalogContent, doc_code=self.doc_code.text(), doc_heading=self.doc_heading.text())
+        # generate Content 1234 respectively
+        if self.doc_1.isChecked():
+            arguments = []
+            for i in range(10):
+                if i < 7:
+                    for j in [1, 3]:
+                        argument = self.model.index(i, j, QModelIndex()).data()
+                        if argument:
+                            arguments.append(argument)
+                        else:
+                            arguments.append("")
+                elif i < 9:
+                    argument = self.model.index(i, 1, QModelIndex()).data()
+                    if argument:
+                        arguments.append(argument)
+                    else:
+                        arguments.append("")
+                else:  # 最后一行虽合并了单元格，但索引仍未2/3
+                    argument = self.model.index(i, 2, QModelIndex()).data()
+                    if argument:
+                        arguments.append(argument)
+                    else:
+                        arguments.append("")
+            generateDocx.generateContent1(document, arguments, doc_code=self.doc_code.text(), doc_content1=self.doc_content1.text())
+        if self.doc_2.isChecked():
+            generateDocx.generateContent2(document)
+        if self.doc_3.isChecked():
+            generateDocx.generateContent3(document)
+        if self.doc_4.isChecked():
+            generateDocx.generateContent4(document)
+        # save file
+        if self.doc_filename.text():
+            filename = self.doc_filename.text()
+            if self.doc_path.text() and helper.Helper.validatepath(self.doc_path.text()):
+                path = self.doc_path.text() + "/" + filename + ".docx"
+                print(path)
+                # path = '/Users/skye/Desktop/demo1.docx'
+                generateDocx.generatedoc(document, path)
+                self.doc_status.setText("generate report successfully")
+            else:
+                self.doc_status.setText("Error: please choose the valid path")
+                return
+        else:
+            self.doc_status.setText("Error: please input valid filename")
+            return
 
     def getpath(self):
         import re
