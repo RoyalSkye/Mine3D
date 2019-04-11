@@ -6,6 +6,7 @@ from docx.oxml.ns import qn
 import database
 
 def generateCover(document, doc_heading = "", doc_company = "", doc_code = "", doc_type = "", doc_reporter = "", doc_date = ""):
+    print("generate Cover")
     # document = Document()
     # heading = document.add_heading(level=0)
     heading = document.add_paragraph()
@@ -94,6 +95,7 @@ def generateCover(document, doc_heading = "", doc_company = "", doc_code = "", d
     # document.save('/Users/skye/Desktop/demo1.docx')
 
 def generateCatalog(document, catalog, catalogContent, doc_code = "", doc_heading = ""):
+    print("generate Catalog")
     # document = Document()
     heading = document.add_paragraph()
     doc_heading = doc_heading + "目录"
@@ -165,10 +167,9 @@ def generateCatalog(document, catalog, catalogContent, doc_code = "", doc_headin
     document.add_page_break()
     # document.save('/Users/skye/Desktop/directory.docx')
 
-# def generateContent1(document, doc_content1 = "", doc_code = ""):
 def generateContent1(document, arguments, doc_code="", doc_content1=""):
+    print("generate Content1")
     heading = document.add_paragraph()
-    doc_content1 = "1. " + doc_content1
     h1 = heading.add_run(doc_content1)
     # h1 = heading.add_run("1.资料审查报告")
     h1.font.color.rgb = RGBColor(0, 0, 0)
@@ -254,14 +255,104 @@ def generateContent1(document, arguments, doc_code="", doc_content1=""):
 
     document.add_page_break()
 
-def generateContent2(document):
-    print("generate Content 2")
+def generateContent2(document, arguments, doc_content2=""):
+    print("generate Content2")
+    heading = document.add_paragraph()
+    h1 = heading.add_run(doc_content2)
+    h1.font.color.rgb = RGBColor(0, 0, 0)
+    h1.font.size = Pt(16)
+    h1.bold = True
+    h1.font.name = u'宋体'
+    h1._element.rPr.rFonts.set(qn('w:eastAsia'), u'宋体')
+    document.styles['Normal'].font.name = u'宋体'
+    document.styles['Normal'].font.size = Pt(12)
+    document.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'宋体')
+    heading.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    heading.paragraph_format.space_before = Pt(0)
+    heading.paragraph_format.line_spacing = 1
+    # doc_2_text
+    p = document.add_paragraph(arguments[2])
+    p.paragraph_format.space_after = 0
+    p = document.add_paragraph("\n")
+    p.paragraph_format.space_after = 0
+
+    if len(arguments[1]) == 0:
+        pass
+    else:
+        # doc_2_table
+        row = len(arguments[1]) + 1
+        column = 5
+        table = document.add_table(rows=row, cols=column, style='Table Grid')
+        row0 = table.rows[0]
+        p1 = row0.cells[0].paragraphs[0]
+        p1.add_run('id')
+        p1.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p2 = row0.cells[1].paragraphs[0]
+        p2.add_run('data1')
+        p2.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p2 = row0.cells[2].paragraphs[0]
+        p2.add_run('data2')
+        p2.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p2 = row0.cells[3].paragraphs[0]
+        p2.add_run('data3')
+        p2.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p2 = row0.cells[4].paragraphs[0]
+        p2.add_run('data4')
+        p2.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        import database
+        minedata = database.getminedata()
+        rownum = 1
+        for i in arguments[1]:
+            row0 = table.rows[rownum]
+            rownum += 1
+            for j in range(5):
+                p1 = row0.cells[j].paragraphs[0]
+                p1.add_run(str(minedata[i][j]))
+                p1.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+        for i in range(0, row):
+            if i == 0:
+                table.rows[i].height = Cm(1.5)
+            else:
+                table.rows[i].height = Cm(0.5)
+            for j in range(0, column):
+                table.cell(i, j).vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+                if j == 0:
+                    table.cell(i, 0).width = Cm(2)
+                else:
+                    # print(table.cell(i, j).width)
+                    table.cell(i, j).width = Cm(4)
+
+    # doc_2_tablename
+    p = document.add_paragraph("表2.1 "+arguments[0])
+    p.paragraph_format.space_after = 0
+    p.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p = document.add_paragraph("\n")
+    p.paragraph_format.space_after = 0
+
+    document.add_page_break()
 
 def generateContent3(document):
-    print("generate Content 3")
+    print("generate Content3")
 
-def generateContent4(document):
-    print("generate Content 4")
+def generateContent4(document, doc_4_text, doc_content4=""):
+    print("generate Content4")
+    heading = document.add_paragraph()
+    h1 = heading.add_run(doc_content4)
+    h1.font.color.rgb = RGBColor(0, 0, 0)
+    h1.font.size = Pt(16)
+    h1.bold = True
+    h1.font.name = u'宋体'
+    h1._element.rPr.rFonts.set(qn('w:eastAsia'), u'宋体')
+    document.styles['Normal'].font.name = u'宋体'
+    document.styles['Normal'].font.size = Pt(12)
+    document.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'宋体')
+    heading.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    heading.paragraph_format.space_before = Pt(0)
+    heading.paragraph_format.line_spacing = 1
+    # doc_4_text
+    p = document.add_paragraph(doc_4_text)
+    p.paragraph_format.space_after = 0
 
 def generatedoc(document, path):
     document.save(path)

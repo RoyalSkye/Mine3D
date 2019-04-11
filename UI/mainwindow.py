@@ -34,6 +34,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         self.initemailsetting()
         self.initcover()
         self.initdoc_1_tableview()
+        self.initdoc_2_table()
 
     def initfont(self):
         font = QtGui.QFont()
@@ -164,6 +165,31 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         if user.user.emailpwd:
             self.emailpwd.setText(user.user.emailpwd)
 
+    def initdoc_2_table(self):
+        minedata = database.getminedata()
+        if minedata:
+            self.doc_2_table.setRowCount(len(minedata))
+            self.doc_2_table.setColumnCount(len(minedata[0]))
+            self.doc_2_table.setHorizontalHeaderLabels(['checked', 'data1', 'data2', 'data3', 'data4'])
+            self.doc_2_table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+            self.doc_2_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+            # self.doc_2_table.verticalHeader().setVisible(False)
+            count = 1
+            for i in range(0, len(minedata)):
+                self.check = QtWidgets.QTableWidgetItem()
+                self.check.setCheckState(Qt.Checked)
+                self.check.setText(str(count))
+                count += 1
+                # self.check.setTextAlignment(Qt.AlignCenter)
+                # self.check.setBackground(Qt.red)
+                self.doc_2_table.setItem(i, 0, self.check)
+                for j in range(1, len(minedata[i])):
+                    item = QtWidgets.QTableWidgetItem(str(minedata[i][j]))
+                    item.setTextAlignment(Qt.AlignCenter)
+                    self.doc_2_table.setItem(i, j, item)
+        else:
+            print("data is null!")
+
     # 槽函数会执行2次if不写装饰器@pyqtSlot()
     @pyqtSlot()
     def on_importFile_clicked(self):
@@ -283,6 +309,39 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         self.doc_path.setText(directory)
 
     @pyqtSlot()
+    def on_doc_2_button1_clicked(self):
+        minedata = database.getminedata()
+        count = len(minedata)
+        try:
+            start = int(self.doc_2_start.text())
+            end = int(self.doc_2_end.text())
+        except:
+            print("catch Exception")
+            self.doc_2_status.setText("please input valid range")
+        else:
+            if start > 0 and start <= count and end > 0 and end <= count:
+                for i in range(start, end + 1):
+                    self.doc_2_table.item(i-1, 0).setCheckState(Qt.Checked)
+                self.doc_2_status.clear()
+            else:
+                print("input out of range")
+                self.doc_2_status.setText("please input valid range")
+
+    @pyqtSlot()
+    def on_doc_2_button2_clicked(self):
+        minedata = database.getminedata()
+        count = len(minedata)
+        for i in range(count):
+            self.doc_2_table.item(i, 0).setCheckState(Qt.Checked)
+
+    @pyqtSlot()
+    def on_doc_2_button3_clicked(self):
+        minedata = database.getminedata()
+        count = len(minedata)
+        for i in range(count):
+            self.doc_2_table.item(i, 0).setCheckState(Qt.Unchecked)
+
+    @pyqtSlot()
     def on_doc_source_clicked(self):
         from docx import Document
         document = Document()
@@ -293,6 +352,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         else:
             self.doc_status.setText("Error: Existing blank lable")
             return
+
         # generate directory
         catalog = []
         catalogContent = []
@@ -325,36 +385,18 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 self.doc_status.setText("Error: Blank CatalogContent")
                 return
         generateDocx.generateCatalog(document, catalog, catalogContent, doc_code=self.doc_code.text(), doc_heading=self.doc_heading.text())
+
         # generate Content 1234 respectively
         if self.doc_1.isChecked():
-            arguments = []
-            for i in range(10):
-                if i < 7:
-                    for j in [1, 3]:
-                        argument = self.model.index(i, j, QModelIndex()).data()
-                        if argument:
-                            arguments.append(argument)
-                        else:
-                            arguments.append("")
-                elif i < 9:
-                    argument = self.model.index(i, 1, QModelIndex()).data()
-                    if argument:
-                        arguments.append(argument)
-                    else:
-                        arguments.append("")
-                else:  # 最后一行虽合并了单元格，但索引仍未2/3
-                    argument = self.model.index(i, 2, QModelIndex()).data()
-                    if argument:
-                        arguments.append(argument)
-                    else:
-                        arguments.append("")
-            generateDocx.generateContent1(document, arguments, doc_code=self.doc_code.text(), doc_content1=self.doc_content1.text())
+            doc_1_arguments = self.content1helper()
+            generateDocx.generateContent1(document, doc_1_arguments, doc_code=self.doc_code.text(), doc_content1=self.doc_content1.text())
         if self.doc_2.isChecked():
-            generateDocx.generateContent2(document)
+            doc_2_arguments = self.content2helper()
+            generateDocx.generateContent2(document, doc_2_arguments, doc_content2=self.doc_content2.text())
         if self.doc_3.isChecked():
             generateDocx.generateContent3(document)
         if self.doc_4.isChecked():
-            generateDocx.generateContent4(document)
+            generateDocx.generateContent4(document, self.doc_4_text.toPlainText(), doc_content4=self.doc_content4.text())
         # save file
         if self.doc_filename.text():
             filename = self.doc_filename.text()
@@ -386,3 +428,54 @@ class MainWindow(QMainWindow, Ui_QUICreator):
 
     def setuncheckable(self):
         self.MailgroupBox.setChecked(False)
+
+    def content1helper(self):
+        arguments = []
+        for i in range(10):
+            if i < 7:
+                for j in [1, 3]:
+                    argument = self.model.index(i, j, QModelIndex()).data()
+                    if argument:
+                        arguments.append(argument)
+                    else:
+                        arguments.append("")
+            elif i < 9:
+                argument = self.model.index(i, 1, QModelIndex()).data()
+                if argument:
+                    arguments.append(argument)
+                else:
+                    arguments.append("")
+            else:  # 最后一行虽合并了单元格，但索引仍未2/3
+                argument = self.model.index(i, 2, QModelIndex()).data()
+                if argument:
+                    arguments.append(argument)
+                else:
+                    arguments.append("")
+        return arguments
+
+    def content2helper(self):
+        arguments = []
+        if self.doc_2_tablename.text():
+            arguments.append(self.doc_2_tablename.text())
+        else:
+            arguments.append("")
+            # # self.palette1 = QtGui.QPalette()
+            # # self.palette1.setColor(QPalette.WindowText, Qt.black)
+            # # QMessageBox.setPalette(self, self.palette1)
+            # reply = QMessageBox.warning(self, 'Message', '<font color="black">please input the tablename(from Tab2)', QMessageBox.Ok)
+            # # if reply == QMessageBox.Ok:
+            # #     print("test")
+        minedata = database.getminedata()
+        count = len(minedata)
+        nums = []
+        for i in range(count):
+            # print(self.doc_2_table.item(i, 0).checkState())
+            if self.doc_2_table.item(i, 0).checkState() == 2:
+                nums.append(i)
+        arguments.append(nums)
+        if self.doc_2_text.toPlainText():
+            arguments.append(self.doc_2_text.toPlainText())
+        else:
+            arguments.append("")
+        print(arguments)
+        return arguments

@@ -372,8 +372,11 @@
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
          <widget class="QTabWidget" name="tabWidget_2">
+          <property name="tabPosition">
+           <enum>QTabWidget::South</enum>
+          </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="cover">
            <attribute name="title">
@@ -434,7 +437,7 @@
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>报告标题:</string>
+                  <string>报告标题*:</string>
                  </property>
                 </widget>
                </item>
@@ -467,7 +470,7 @@
                <item row="3" column="1">
                 <widget class="QLabel" name="label_15">
                  <property name="text">
-                  <string>使用单位:</string>
+                  <string>使用单位*:</string>
                  </property>
                 </widget>
                </item>
@@ -487,7 +490,7 @@
                <item row="6" column="1">
                 <widget class="QLabel" name="label_32">
                  <property name="text">
-                  <string>报告人:</string>
+                  <string>报告人*:</string>
                  </property>
                 </widget>
                </item>
@@ -514,14 +517,14 @@
                <item row="7" column="1">
                 <widget class="QLabel" name="label_33">
                  <property name="text">
-                  <string>报告日期:</string>
+                  <string>报告日期*:</string>
                  </property>
                 </widget>
                </item>
                <item row="4" column="1">
                 <widget class="QLabel" name="label_31">
                  <property name="text">
-                  <string>报告编号:</string>
+                  <string>报告编号*:</string>
                  </property>
                 </widget>
                </item>
@@ -580,6 +583,9 @@
                  <property name="text">
                   <string>报告内容4  </string>
                  </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
                <item row="12" column="1">
@@ -587,12 +593,18 @@
                  <property name="text">
                   <string>报告内容3  </string>
                  </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
                <item row="10" column="1">
                 <widget class="QCheckBox" name="doc_1">
                  <property name="text">
                   <string>报告内容1  </string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -639,6 +651,9 @@
                  <property name="text">
                   <string>报告内容2  </string>
                  </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
                <item row="8" column="1">
@@ -663,7 +678,7 @@
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>报告类型:</string>
+                  <string>报告类型*:</string>
                  </property>
                 </widget>
                </item>
@@ -676,7 +691,7 @@
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>保存至:(请先完成1234部分)</string>
+                  <string>Note:请先完成所选部分</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -692,14 +707,14 @@
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>选择路径:</string>
+                  <string>选择路径*:</string>
                  </property>
                 </widget>
                </item>
                <item row="15" column="1">
                 <widget class="QLabel" name="label_18">
                  <property name="text">
-                  <string>文件重命名:</string>
+                  <string>文件重命名*:</string>
                  </property>
                 </widget>
                </item>
@@ -743,13 +758,237 @@
           </widget>
           <widget class="QWidget" name="text2">
            <attribute name="title">
-            <string>2.数据图表</string>
+            <string>2.数据表格</string>
            </attribute>
+           <layout class="QGridLayout" name="gridLayout_8">
+            <item row="2" column="1">
+             <widget class="QGroupBox" name="groupBox_3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="title">
+               <string/>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <item>
+                <widget class="QLineEdit" name="doc_2_start">
+                 <property name="text">
+                  <string>请输入行数</string>
+                 </property>
+                 <property name="clearButtonEnabled">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_23">
+                 <property name="text">
+                  <string>to</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="doc_2_end">
+                 <property name="text">
+                  <string>请输入行数</string>
+                 </property>
+                 <property name="clearButtonEnabled">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="doc_2_status">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="doc_2_button1">
+                 <property name="text">
+                  <string>选择</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QGroupBox" name="groupBox_4">
+              <property name="title">
+               <string/>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_7">
+               <item>
+                <widget class="QPushButton" name="doc_2_button2">
+                 <property name="text">
+                  <string>全选</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="doc_2_button3">
+                 <property name="text">
+                  <string>全不选</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="doc_2_tablename">
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_24">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>选择数据:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_22">
+              <property name="text">
+               <string>表格命名:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QTableWidget" name="doc_2_table">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_25">
+              <property name="text">
+               <string>正文:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QPlainTextEdit" name="doc_2_text">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="text3">
            <attribute name="title">
             <string>3.数据分析</string>
            </attribute>
+           <layout class="QGridLayout" name="gridLayout_7">
+            <item row="1" column="0">
+             <widget class="QPushButton" name="doc_3_button1">
+              <property name="text">
+               <string>选择图片</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QPlainTextEdit" name="doc_3_text1">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QPushButton" name="doc_3_button2">
+              <property name="text">
+               <string>选择图片</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="doc_3_picname1">
+              <property name="text">
+               <string>图片命名</string>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QPushButton" name="doc_3_button3">
+              <property name="text">
+               <string>选择图片</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="doc_3_picname3">
+              <property name="text">
+               <string>图片命名</string>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_26">
+              <property name="text">
+               <string>正文:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="doc_3_picname2">
+              <property name="text">
+               <string>图片命名</string>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="doc_3_pic">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="text4">
            <attribute name="title">
@@ -765,61 +1004,15 @@
                <bool>true</bool>
               </property>
               <layout class="QGridLayout" name="gridLayout_13">
-               <item row="4" column="0">
-                <widget class="QLabel" name="label_35">
-                 <property name="text">
-                  <string>3</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QPlainTextEdit" name="plainTextEdit_2"/>
-               </item>
                <item row="1" column="0">
-                <widget class="QLabel" name="label_54">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>报告内容:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
                 <widget class="QLabel" name="label_48">
                  <property name="text">
-                  <string>2.1</string>
+                  <string>总结:</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_47">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QPlainTextEdit" name="plainTextEdit_7"/>
-               </item>
-               <item row="2" column="1">
-                <widget class="QPlainTextEdit" name="plainTextEdit_8">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                </widget>
+               <item row="1" column="1">
+                <widget class="QPlainTextEdit" name="doc_4_text"/>
                </item>
               </layout>
              </widget>
