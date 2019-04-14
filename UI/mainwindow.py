@@ -35,6 +35,9 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         self.initcover()
         self.initdoc_1_tableview()
         self.initdoc_2_table()
+        # global variables
+        self.doc_3_picpath1 = ""
+        self.doc_3_picpath2 = ""
 
     def initfont(self):
         font = QtGui.QFont()
@@ -53,6 +56,11 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         self.doc_date.setText(helper.Helper.getdatetime())
         self.doc_type.setText('常规更新')
         self.doc_filename.setText('demo1')
+        # initCatalog
+        self.doc_content1.setText("资料审查报告")
+        self.doc_content2.setText("数据图表")
+        self.doc_content3.setText("数据分析")
+        self.doc_content4.setText("总结")
 
     def initdoc_1_tableview(self):
         self.model = QStandardItemModel(10, 4)
@@ -189,6 +197,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                     self.doc_2_table.setItem(i, j, item)
         else:
             print("data is null!")
+
 
     # 槽函数会执行2次if不写装饰器@pyqtSlot()
     @pyqtSlot()
@@ -342,6 +351,108 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             self.doc_2_table.item(i, 0).setCheckState(Qt.Unchecked)
 
     @pyqtSlot()
+    def on_doc_3_button1_clicked(self):
+        # 'jpg', 'bmp', 'png', 'jpeg', 'rgb', 'tif'
+        # https: // blog.csdn.net / a359680405 / article / details / 45166271
+        rootpath = '/'
+        filepath, filetype = QFileDialog.getOpenFileName(self,
+                                                         "选择图片",
+                                                         rootpath,
+                                             "(*.jpg;*.bmp;*.png;*.jpeg;*.rgb;*.tif;)")
+        if not filepath:
+            return
+        # import imghdr
+        # filetype = imghdr.what(filepath)
+        self.doc_3_picpath1 = filepath
+        img = QImage(filepath)
+        mgnWidth = img.width()
+        mgnHeight = img.height()
+        # keep the shape of img
+        if mgnWidth > mgnHeight:
+            scale = mgnWidth / 200
+            mgnWidth = 200
+            try:
+                mgnHeight /= scale
+            except:
+                print("catch Exception")
+                self.doc_3_status.setText("Error: img Width equals to 0")
+                mgnHeight = 200
+        else:
+            scale = mgnHeight / 200
+            mgnHeight = 200
+            try:
+                mgnWidth /= scale
+            except:
+                print("catch Exception")
+                self.doc_3_status.setText("Error: img Width equals to 0")
+                mgnWidth = 200
+        size = QSize(mgnWidth, mgnHeight)
+        pixmap = QPixmap.fromImage(img.scaled(size, Qt.IgnoreAspectRatio))
+        self.doc_3_pic1.resize(mgnWidth, mgnHeight)
+        self.doc_3_pic1.setPixmap(pixmap)
+        # self.doc_3_pic1.setScaledContents(True)
+
+    @pyqtSlot()
+    def on_doc_3_button2_clicked(self):
+        rootpath = '/'
+        filepath, filetype = QFileDialog.getOpenFileName(self,
+                                                         "选择图片",
+                                                         rootpath,
+                                                         "(*.jpg;*.bmp;*.png;*.jpeg;*.rgb;*.tif;)")
+        if not filepath:
+            return
+        self.doc_3_picpath2 = filepath
+        img = QImage(filepath)
+        mgnWidth = img.width()
+        mgnHeight = img.height()
+        # keep the shape of img
+        if mgnWidth > mgnHeight:
+            scale = mgnWidth / 200
+            mgnWidth = 200
+            try:
+                mgnHeight /= scale
+            except:
+                print("catch Exception")
+                self.doc_3_status.setText("Error: img Width equals to 0")
+                mgnHeight = 200
+        else:
+            scale = mgnHeight / 200
+            mgnHeight = 200
+            try:
+                mgnWidth /= scale
+            except:
+                print("catch Exception")
+                self.doc_3_status.setText("Error: img Width equals to 0")
+                mgnWidth = 200
+        size = QSize(mgnWidth, mgnHeight)
+        pixmap = QPixmap.fromImage(img.scaled(size, Qt.IgnoreAspectRatio))
+        self.doc_3_pic2.resize(mgnWidth, mgnHeight)
+        self.doc_3_pic2.setPixmap(pixmap)
+
+    @pyqtSlot()
+    def on_doc_clear_clicked(self):
+        self.initcover()
+        self.initdoc_1_tableview()
+        self.initdoc_2_table()
+        self.doc_3_picpath1 = ""
+        self.doc_3_picpath2 = ""
+        self.doc_path.clear()
+        self.doc_2_tablename.clear()
+        self.doc_2_text.clear()
+        self.doc_2_start.setText("请输入行数")
+        self.doc_2_end.setText("请输入行数")
+        self.doc_3_pic1.clear()
+        self.doc_3_pic2.clear()
+        self.doc_3_picname1.setText("图片命名")
+        self.doc_3_picname2.setText("图片命名")
+        self.doc_3_text.clear()
+        self.doc_4_text.clear()
+        self.doc_1.setChecked(True)
+        self.doc_2.setChecked(True)
+        self.doc_3.setChecked(True)
+        self.doc_4.setChecked(True)
+
+    @pyqtSlot()
     def on_doc_source_clicked(self):
         from docx import Document
         document = Document()
@@ -394,7 +505,8 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             doc_2_arguments = self.content2helper()
             generateDocx.generateContent2(document, doc_2_arguments, doc_content2=self.doc_content2.text())
         if self.doc_3.isChecked():
-            generateDocx.generateContent3(document)
+            doc_3_arguments = self.content3helper()
+            generateDocx.generateContent3(document, doc_3_arguments, doc_content3=self.doc_content3.text())
         if self.doc_4.isChecked():
             generateDocx.generateContent4(document, self.doc_4_text.toPlainText(), doc_content4=self.doc_content4.text())
         # save file
@@ -479,3 +591,39 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             arguments.append("")
         print(arguments)
         return arguments
+
+    def content3helper(self):
+        arguments = []
+        imgpath = []
+        imgname = []
+        if self.doc_3_picpath1:
+            imgpath.append(self.doc_3_picpath1)
+        if self.doc_3_picpath2:
+            imgpath.append(self.doc_3_picpath2)
+        if self.doc_3_picname1:
+            imgname.append(self.doc_3_picname1.text())
+        else:
+            imgname.append("")
+        if self.doc_3_picname2:
+            imgname.append(self.doc_3_picname2.text())
+        else:
+            imgname.append("")
+        arguments.append(imgpath)
+        arguments.append(imgname)
+        arguments.append(self.doc_3_text.toPlainText())
+        print(arguments)
+        return arguments
+
+    # def initdoc_3_pic(self):
+    #     # https: // blog.csdn.net / Victor_zero / article / details / 81532511
+    #     # scale = 0.2
+    #     img = QImage("/Users/skye/Pictures/profile.jpg")
+    #     # mgnWidth = int(img.width() * scale)
+    #     # mgnHeight = int(img.height() * scale)
+    #     mgnWidth = 200
+    #     mgnHeight = 200
+    #     size = QSize(mgnWidth, mgnHeight)
+    #     pixmap = QPixmap.fromImage(img.scaled(size, Qt.IgnoreAspectRatio))
+    #     self.doc_3_pic1.resize(mgnWidth, mgnHeight)
+    #     self.doc_3_pic1.setPixmap(pixmap)
+    #     self.doc_3_pic1.setScaledContents(True)

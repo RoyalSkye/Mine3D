@@ -3,7 +3,6 @@ from docx.shared import Inches, RGBColor, Pt, Cm
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.table import WD_ALIGN_VERTICAL
 from docx.oxml.ns import qn
-import database
 
 def generateCover(document, doc_heading = "", doc_company = "", doc_code = "", doc_type = "", doc_reporter = "", doc_date = ""):
     print("generate Cover")
@@ -332,8 +331,46 @@ def generateContent2(document, arguments, doc_content2=""):
 
     document.add_page_break()
 
-def generateContent3(document):
+def generateContent3(document, arguments, doc_content3=""):
     print("generate Content3")
+    heading = document.add_paragraph()
+    h1 = heading.add_run(doc_content3)
+    h1.font.color.rgb = RGBColor(0, 0, 0)
+    h1.font.size = Pt(16)
+    h1.bold = True
+    h1.font.name = u'宋体'
+    h1._element.rPr.rFonts.set(qn('w:eastAsia'), u'宋体')
+    document.styles['Normal'].font.name = u'宋体'
+    document.styles['Normal'].font.size = Pt(12)
+    document.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'宋体')
+    heading.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    heading.paragraph_format.space_before = Pt(0)
+    heading.paragraph_format.line_spacing = 1
+    # doc_3_text
+    p = document.add_paragraph(arguments[2])
+    p.paragraph_format.space_after = 0
+    p = document.add_paragraph("\n")
+    p.paragraph_format.space_after = 0
+
+    # doc_3_imgpath, doc_3_imgname
+    imgnum = len(arguments[0])
+    if imgnum == 0:
+        pass
+    else:
+        for i in range(imgnum):
+            table = document.add_table(rows=1, cols=1, style='Normal Table')
+            cell = table.rows[0].cells[0]
+            p = cell.paragraphs[0]
+            run = p.add_run()
+            run.add_picture(arguments[0][i], width=Inches(2.5))
+            p.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+            p = document.add_paragraph("图3.1 " + arguments[1][0])
+            p.paragraph_format.space_after = 0
+            p.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            # p = document.add_paragraph("\n")
+            # p.paragraph_format.space_after = 0
+    document.add_page_break()
 
 def generateContent4(document, doc_4_text, doc_content4=""):
     print("generate Content4")
