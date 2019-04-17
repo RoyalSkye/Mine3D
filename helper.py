@@ -31,3 +31,49 @@ class Helper:
         path = path.strip()
         isExists = os.path.exists(path)
         return isExists
+
+    @staticmethod
+    def readpcd(file_path):
+        # import pointcloud dataset to Excel
+
+        file_path = '/Users/skye/Desktop/s_MineOne.pcd'
+        with open(file_path) as file_object:
+            # contents = file_object.read()
+            # for line in file_object:
+            #     print(line.rstrip())
+            lines = file_object.readlines()
+        data = []
+        for line in lines[11:]:
+            # print(line.rstrip())
+            data.append(line.rstrip())
+        return data
+
+    @staticmethod
+    def writeToexcel(file_path):
+        import xlwt
+        workbook = xlwt.Workbook(encoding='ascii')
+        worksheet = workbook.add_sheet('PointData')
+        style = xlwt.XFStyle()  # 初始化样式
+        font = xlwt.Font()  # 为样式创建字体
+        font.name = 'Times New Roman'
+        font.bold = False  # 黑体
+        font.underline = False  # 下划线
+        font.italic = False  # 斜体字
+        style.font = font  # 设定样式
+
+        file_path = '/Users/skye/Desktop/s_MineOne.pcd'
+        data = Helper.readpcd(file_path)
+        # print(type(data))
+
+        worksheet.write(0, 0, 'x', style)
+        worksheet.write(0, 1, 'y', style)
+        worksheet.write(0, 2, 'z', style)
+        worksheet.write(0, 3, 'intensity', style)
+
+        for i in range(len(data)):
+            a = data[i].split()
+            for j in range(len(a)):
+                worksheet.write(i + 1, j, float(a[j]), style)  # 带样式的写入
+
+        workbook.save('/Users/skye/Desktop/pointcloud.xls')  # 保存文件
+        print("write to file completed!")

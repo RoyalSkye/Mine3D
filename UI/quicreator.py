@@ -1028,5 +1028,3 @@ class Ui_QUICreator(object):
         self.action_A.setText(_translate("QUICreator", "关于(&A)"))
         self.actionshengcheng.setText(_translate("QUICreator", "生成报表"))
         self.actiond.setText(_translate("QUICreator", "导入数据"))
-
-

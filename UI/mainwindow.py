@@ -11,18 +11,13 @@ class MainWindow(QMainWindow, Ui_QUICreator):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        self.initTableWidget()
-        self.initfont()
-        self.initEmailBox()
-        self.initreceiver()
-        self.attachList = []  # 附件列表
 
-        # simulate login
-        userinfo = database.getUserByusername("skye", "123456")
-        if userinfo:
-            user.user.setUser(userinfo[0])
-        else:
-            print("用户名密码错误!")
+        # # simulate login
+        # userinfo = database.getUserByusername("skye", "123456")
+        # if userinfo:
+        #     user.user.setUser(userinfo[0])
+        # else:
+        #     print("用户名密码错误!")
 
         # 判断用户权限，如果为普通用户，则将groupbox设置为不可选状态
         if(user.user.identify == "admin"):
@@ -31,6 +26,11 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             self.MailgroupBox.setChecked(False)
             self.MailgroupBox.toggled.connect(self.setuncheckable)
 
+        self.initTableWidget()
+        self.initfont()
+        self.initEmailBox()
+        self.initreceiver()
+        self.attachList = []  # 附件列表
         self.initemailsetting()
         self.initcover()
         self.initdoc_1_tableview()
@@ -38,6 +38,9 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         # global variables
         self.doc_3_picpath1 = ""
         self.doc_3_picpath2 = ""
+
+        # import Visualization.MyGL as mg
+        # self.objFile = self.openGLWidget = mg.OpenGLWidget(self.centralwidget)
 
     def initfont(self):
         font = QtGui.QFont()
