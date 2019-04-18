@@ -77,3 +77,6 @@ class Helper:
 
         workbook.save('/Users/skye/Desktop/pointcloud.xls')  # 保存文件
         print("write to file completed!")
+
+global modelversion
+modelversion = "light"

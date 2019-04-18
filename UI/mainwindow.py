@@ -12,6 +12,12 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
 
+        self.action_dark.triggered.connect(self.Todarkmodel)
+        self.action_light.triggered.connect(self.Tolightmodel)
+        self.action_quit.triggered.connect(self.quit)
+        self.action_refresh.triggered.connect(self.refresh)
+        self.action_changeuser.triggered.connect(self.changeuser)
+
         # # simulate login
         # userinfo = database.getUserByusername("skye", "123456")
         # if userinfo:
@@ -38,6 +44,12 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         # global variables
         self.doc_3_picpath1 = ""
         self.doc_3_picpath2 = ""
+
+        self.animation1 = QPropertyAnimation(self, b"windowOpacity")
+        self.animation1.setDuration(500)
+        self.animation1.setStartValue(0)
+        self.animation1.setEndValue(1)
+        self.animation1.start()
 
         # import Visualization.MyGL as mg
         # self.objFile = self.openGLWidget = mg.OpenGLWidget(self.centralwidget)
@@ -82,12 +94,18 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 count += 1
                 item.setFlags(Qt.NoItemFlags)
                 item.setTextAlignment(Qt.AlignCenter)
+                # !!! if change to dark model, change to qt.white
+                # print(helper.modelversion)
+                if helper.modelversion == "light":
+                    item.setForeground(Qt.black)
                 self.model.setItem(row, 2*column, item)
         for row in range(7, 10):
             item = QStandardItem(tmp[count])
             count += 1
             item.setFlags(Qt.NoItemFlags)
             item.setTextAlignment(Qt.AlignCenter)
+            if helper.modelversion == "light":
+                item.setForeground(Qt.black)
             self.model.setItem(row, 0, item)
         self.doc_1_tableview.setModel(self.model)
 
@@ -192,7 +210,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 self.check.setText(str(count))
                 count += 1
                 # self.check.setTextAlignment(Qt.AlignCenter)
-                # self.check.setBackground(Qt.red)
+                # self.check.setBackground(Qt.black)
                 self.doc_2_table.setItem(i, 0, self.check)
                 for j in range(1, len(minedata[i])):
                     item = QtWidgets.QTableWidgetItem(str(minedata[i][j]))
@@ -616,6 +634,91 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         arguments.append(self.doc_3_text.toPlainText())
         print(arguments)
         return arguments
+
+    def Todarkmodel(self):
+        reply = QMessageBox.warning(self, 'Message', '<font color="black">将重新打开窗口!',
+                                    QMessageBox.Cancel | QMessageBox.Ok, QMessageBox.Cancel)
+        if reply == QMessageBox.Cancel:
+            return
+        helper.modelversion = "dark"
+        self.windowList = []
+        SecondmainWindow = MainWindow()
+        self.windowList.append(SecondmainWindow)
+        self.close()
+        palette = QtGui.QPalette()
+        palette.setColor(SecondmainWindow.backgroundRole(), QtGui.QColor(68, 68, 68))
+        SecondmainWindow.setPalette(palette)
+        SecondmainWindow.setWindowTitle("Mine Information Management Platform")
+        styleFile = './UI/resource/qss/psblack.css'
+        Style = helper.Helper.readQss(styleFile)
+        SecondmainWindow.setStyleSheet(Style)
+        SecondmainWindow.show()
+
+    def Tolightmodel(self):
+        reply = QMessageBox.warning(self, 'Message', '<font color="black">将重新打开窗口!',
+                                    QMessageBox.Cancel | QMessageBox.Ok, QMessageBox.Cancel)
+        if reply == QMessageBox.Cancel:
+            return
+        helper.modelversion = "light"
+        self.windowList = []
+        SecondmainWindow = MainWindow()
+        self.windowList.append(SecondmainWindow)
+        self.close()
+        palette = QtGui.QPalette()
+        palette.setColor(SecondmainWindow.backgroundRole(), QtGui.QColor(255, 255, 255))
+        SecondmainWindow.setPalette(palette)
+        SecondmainWindow.setFont(QtGui.QFont("Times New Roman", 12))
+        SecondmainWindow.setWindowTitle("Mine Information Management Platform")
+        SecondmainWindow.show()
+
+    def quit(self):
+        reply = QMessageBox.warning(self, 'Message', '<font color="black">是否退出系统？',
+                                    QMessageBox.No | QMessageBox.Yes, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            self.animation = QPropertyAnimation(self, b"windowOpacity")
+            self.animation.setDuration(500)
+            self.animation.setStartValue(1)
+            self.animation.setEndValue(0)
+            self.animation.start()
+            self.animation.finished.connect(self.close1)
+
+    def close1(self):
+        self.hide()
+        self.close()
+
+    def refresh(self):
+        if helper.modelversion == "light":
+            self.Tolightmodel()
+        else:
+            self.Todarkmodel()
+
+    def changeuser(self):
+        reply = QMessageBox.question(self, "Question", '<font color="black">是否确认退出当前账号？',
+                                      QMessageBox.No | QMessageBox.Yes, QMessageBox.No)
+        if reply == QMessageBox.No:
+            pass
+        else:
+            from UI.loginMainWindow import loginMainWindow
+            self.windowList = []
+            FirstmainWindow = loginMainWindow()
+            self.windowList.append(FirstmainWindow)
+            self.close()
+            if helper.modelversion == "light":
+                palette = QtGui.QPalette()
+                palette.setColor(FirstmainWindow.backgroundRole(), QtGui.QColor(255, 255, 255))
+                FirstmainWindow.setPalette(palette)
+                FirstmainWindow.setWindowTitle("Mine Information Management Platform")
+                FirstmainWindow.setFont(QtGui.QFont("Times New Roman", 12))
+                FirstmainWindow.show()
+            else:
+                palette = QtGui.QPalette()
+                palette.setColor(FirstmainWindow.backgroundRole(), QtGui.QColor(68, 68, 68))
+                FirstmainWindow.setPalette(palette)
+                FirstmainWindow.setWindowTitle("Mine Information Management Platform")
+                styleFile = './UI/resource/qss/psblack.css'
+                Style = helper.Helper.readQss(styleFile)
+                FirstmainWindow.setStyleSheet(Style)
+                FirstmainWindow.show()
 
     # def initdoc_3_pic(self):
     #     # https: // blog.csdn.net / Victor_zero / article / details / 81532511

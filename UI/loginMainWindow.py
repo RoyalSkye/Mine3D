@@ -11,6 +11,12 @@ class loginMainWindow(QMainWindow, Ui_MainWindow):
         super().__init__(parent)
         self.setupUi(self)
 
+        self.animation1 = QPropertyAnimation(self, b"windowOpacity")
+        self.animation1.setDuration(500)
+        self.animation1.setStartValue(0)
+        self.animation1.setEndValue(1)
+        self.animation1.start()
+
     @pyqtSlot()
     def on_login_clicked(self):
         self.login_username.setText("skye")
@@ -28,16 +34,22 @@ class loginMainWindow(QMainWindow, Ui_MainWindow):
                 self.close()
 
                 import helper
-                palette = QtGui.QPalette()
-                palette.setColor(SecondmainWindow.backgroundRole(), QtGui.QColor(68, 68, 68))
-                SecondmainWindow.setPalette(palette)
-                SecondmainWindow.setFont(QtGui.QFont("Microsoft Yahei", 11))
-                SecondmainWindow.setWindowTitle("Mine Information Management Platform")
-                styleFile = './UI/resource/qss/psblack.css'
-                Style = helper.Helper.readQss(styleFile)
-                SecondmainWindow.setStyleSheet(Style)
-
-                SecondmainWindow.show()
+                if helper.modelversion == "light":
+                    palette = QtGui.QPalette()
+                    palette.setColor(SecondmainWindow.backgroundRole(), QtGui.QColor(255, 255, 255))
+                    SecondmainWindow.setPalette(palette)
+                    SecondmainWindow.setFont(QtGui.QFont("Times New Roman", 12))
+                    SecondmainWindow.setWindowTitle("Mine Information Management Platform")
+                    SecondmainWindow.show()
+                else:
+                    palette = QtGui.QPalette()
+                    palette.setColor(SecondmainWindow.backgroundRole(), QtGui.QColor(68, 68, 68))
+                    SecondmainWindow.setPalette(palette)
+                    SecondmainWindow.setWindowTitle("Mine Information Management Platform")
+                    styleFile = './UI/resource/qss/psblack.css'
+                    Style = helper.Helper.readQss(styleFile)
+                    SecondmainWindow.setStyleSheet(Style)
+                    SecondmainWindow.show()
             else:
                 self.palette1 = QtGui.QPalette()
                 self.palette1.setColor(QPalette.WindowText, Qt.black)
@@ -58,4 +70,21 @@ class loginMainWindow(QMainWindow, Ui_MainWindow):
 
     @pyqtSlot()
     def on_exit_clicked(self):
+        self.animation = QPropertyAnimation(self, b"windowOpacity")
+        self.animation.setDuration(500)
+        self.animation.setStartValue(1)
+        self.animation.setEndValue(0)
+        self.animation.start()
+        self.animation.finished.connect(self.close1)
+
+    def close1(self):
+        self.hide()
         self.close()
+
+    # def closeEvent(self, event):
+    #     self.animation = QPropertyAnimation(self, b"windowOpacity")
+    #     self.animation.setDuration(500)
+    #     self.animation.setStartValue(1)
+    #     self.animation.setEndValue(0)
+    #     self.animation.start()
+    #     self.animation.finished.connect(self.close1)

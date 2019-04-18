@@ -1,4 +1,4 @@
-QPalette{background:#444444;}*{outline:0px;color:#DCDCDC;}
+QPalette{background:#444444;}*{outline:0px;color:#DCDCDC;}*{font-family: "Times New Roman"; font-size: 12px}
 
 QWidget[form="true"],QLabel[frameShape="1"]{
 border:1px solid #242424;
@@ -421,7 +421,7 @@ border:0px;
 }
 
 QTreeView,QListView,QTableView,QTabWidget::pane{
-border:1px solid #242424;
+border:1px solid #242424;front
 selection-background-color:#646464;
 selection-color:#DCDCDC;
 alternate-background-color:#525252;

@@ -64,7 +64,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="dataTab">
        <attribute name="title">
@@ -328,6 +328,9 @@
             <property name="text">
              <string>选择文件</string>
             </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item row="2" column="1">
@@ -341,6 +344,9 @@
            <widget class="QPushButton" name="training">
             <property name="text">
              <string>导入/训练</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -376,7 +382,7 @@
            <enum>QTabWidget::South</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="cover">
            <attribute name="title">
@@ -664,6 +670,9 @@
                  <property name="text">
                   <string>选择路径*:</string>
                  </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
                <item row="15" column="1">
@@ -712,7 +721,7 @@
                   <string/>
                  </property>
                  <property name="flat">
-                  <bool>true</bool>
+                  <bool>false</bool>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_6">
                   <item>
@@ -725,6 +734,12 @@
                     </property>
                     <property name="text">
                      <string>refresh/clear</string>
+                    </property>
+                    <property name="checkable">
+                     <bool>true</bool>
+                    </property>
+                    <property name="checked">
+                     <bool>false</bool>
                     </property>
                    </widget>
                   </item>
@@ -746,7 +761,7 @@
                      <string>生成报告</string>
                     </property>
                     <property name="checkable">
-                     <bool>false</bool>
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -843,6 +858,9 @@
                  <property name="text">
                   <string>选择</string>
                  </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
               </layout>
@@ -859,12 +877,18 @@
                  <property name="text">
                   <string>全选</string>
                  </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
                <item>
                 <widget class="QPushButton" name="doc_2_button3">
                  <property name="text">
                   <string>全不选</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -1158,6 +1182,9 @@
                <property name="text">
                 <string>Send</string>
                </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item row="5" column="1">
@@ -1172,7 +1199,7 @@
                 <string>Clear</string>
                </property>
                <property name="checkable">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="checked">
                 <bool>false</bool>
@@ -1189,6 +1216,9 @@
                  <width>16</width>
                  <height>16</height>
                 </size>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -1238,6 +1268,13 @@
              <bool>false</bool>
             </property>
             <layout class="QGridLayout" name="gridLayout_3">
+             <item row="7" column="1">
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
              <item row="0" column="0">
               <widget class="QLabel" name="label_5">
                <property name="sizePolicy">
@@ -1340,6 +1377,9 @@
                <property name="text">
                 <string>Source</string>
                </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
               </widget>
              </item>
              <item row="3" column="1">
@@ -1369,13 +1409,6 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="7" column="1">
-              <widget class="QLabel" name="label_10">
                <property name="text">
                 <string/>
                </property>
@@ -1415,61 +1448,6 @@
              <bool>false</bool>
             </property>
             <layout class="QGridLayout" name="gridLayout_5">
-             <item row="4" column="1">
-              <widget class="QPushButton" name="accountsource">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>Source</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="1">
-              <widget class="QLabel" name="label_16">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_12">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>158</width>
-                 <height>21</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>修改密码:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QLineEdit" name="newpwd2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="echoMode">
-                <enum>QLineEdit::Password</enum>
-               </property>
-              </widget>
-             </item>
              <item row="2" column="0">
               <widget class="QLabel" name="label_13">
                <property name="sizePolicy">
@@ -1554,6 +1532,64 @@
                </property>
               </widget>
              </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="newpwd2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="echoMode">
+                <enum>QLineEdit::Password</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QPushButton" name="accountsource">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Source</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QLabel" name="label_16">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_12">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>158</width>
+                 <height>21</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>修改密码:</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </item>
@@ -1574,17 +1610,17 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu_F">
+   <widget class="QMenu" name="menu_A">
     <property name="title">
-     <string>文件(&amp;F)</string>
+     <string>Mining System</string>
     </property>
-    <addaction name="action"/>
-    <addaction name="action_O"/>
+    <addaction name="action_about"/>
+    <addaction name="action_refresh"/>
     <addaction name="separator"/>
-    <addaction name="action_S"/>
-    <addaction name="action_C"/>
+    <addaction name="action_changeuser"/>
+    <addaction name="action_quit"/>
    </widget>
-   <widget class="QMenu" name="menu_E">
+   <widget class="QMenu" name="menu_B">
     <property name="title">
      <string>编辑(&amp;E)</string>
     </property>
@@ -1592,50 +1628,35 @@
     <addaction name="action_C_2"/>
     <addaction name="action_V"/>
    </widget>
-   <widget class="QMenu" name="menu_B">
+   <widget class="QMenu" name="menu_C">
     <property name="title">
-     <string>构建(&amp;B)</string>
+     <string>设置</string>
     </property>
-    <addaction name="actionGouj"/>
-    <addaction name="actiond"/>
+    <addaction name="action_light"/>
+    <addaction name="action_dark"/>
    </widget>
-   <widget class="QMenu" name="menu_H">
-    <property name="title">
-     <string>帮助(&amp;H)</string>
-    </property>
-    <addaction name="action_T"/>
-    <addaction name="action_A"/>
-   </widget>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>报表</string>
-    </property>
-    <addaction name="actionshengcheng"/>
-   </widget>
-   <addaction name="menu_F"/>
-   <addaction name="menu_E"/>
+   <addaction name="menu_A"/>
    <addaction name="menu_B"/>
-   <addaction name="menu"/>
-   <addaction name="menu_H"/>
+   <addaction name="menu_C"/>
   </widget>
-  <action name="action">
+  <action name="action_about">
    <property name="text">
-    <string>新建文件(&amp;N)</string>
+    <string>关于Mining System</string>
    </property>
   </action>
-  <action name="action_O">
+  <action name="action_refresh">
    <property name="text">
-    <string>打开文件(&amp;O)</string>
+    <string>刷新</string>
    </property>
   </action>
-  <action name="action_S">
+  <action name="action_changeuser">
    <property name="text">
-    <string>保存文件(&amp;S) </string>
+    <string>切换账号</string>
    </property>
   </action>
-  <action name="action_C">
+  <action name="action_quit">
    <property name="text">
-    <string>关闭退出(&amp;C)</string>
+    <string>退出系统</string>
    </property>
   </action>
   <action name="action_X">
@@ -1658,14 +1679,14 @@
     <string>构建项目(&amp;B)</string>
    </property>
   </action>
-  <action name="action_T">
+  <action name="action_light">
    <property name="text">
-    <string>帮助文档(&amp;T)</string>
+    <string>light model</string>
    </property>
   </action>
-  <action name="action_A">
+  <action name="action_dark">
    <property name="text">
-    <string>关于(&amp;A)</string>
+    <string>dark model</string>
    </property>
   </action>
   <action name="actionshengcheng">
