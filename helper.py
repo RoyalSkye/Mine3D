@@ -78,5 +78,27 @@ class Helper:
         workbook.save('/Users/skye/Desktop/pointcloud.xls')  # 保存文件
         print("write to file completed!")
 
+    @staticmethod
+    def ReadPCAdata(filepath):
+        import xlrd
+        filepath = '/Users/skye/Desktop/铁矿石132+围岩.xls'
+        data = xlrd.open_workbook(filepath)
+        table = data.sheet_by_index(0)
+        samples = table.row_values(0)[1:]
+        # print(samples)
+
+        pcadata = [[] for row in range(3, table.nrows)]
+        # print(len(pcadata))
+        n = 0
+        for i in range(3, table.nrows):
+            pcadata[n] = table.row_values(i)[1:]
+            n = n + 1
+        # print(pcadata)
+
+        dataset = {'waves': len(pcadata), 'samples': samples, 'pcadata': pcadata}
+        return dataset
+
 global modelversion
 modelversion = "light"
+global threadpool
+threadpool = []
