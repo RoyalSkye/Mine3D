@@ -256,6 +256,7 @@ def generateContent1(document, arguments, doc_code="", doc_content1=""):
 
 def generateContent2(document, arguments, doc_content2=""):
     print("generate Content2")
+    print(arguments)
     heading = document.add_paragraph()
     h1 = heading.add_run(doc_content2)
     h1.font.color.rgb = RGBColor(0, 0, 0)
@@ -284,30 +285,37 @@ def generateContent2(document, arguments, doc_content2=""):
         table = document.add_table(rows=row, cols=column, style='Table Grid')
         row0 = table.rows[0]
         p1 = row0.cells[0].paragraphs[0]
-        p1.add_run('id')
+        p1.add_run('样本编号')
         p1.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
         p2 = row0.cells[1].paragraphs[0]
-        p2.add_run('data1')
+        p2.add_run('x')
         p2.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
         p2 = row0.cells[2].paragraphs[0]
-        p2.add_run('data2')
+        p2.add_run('y')
         p2.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
         p2 = row0.cells[3].paragraphs[0]
-        p2.add_run('data3')
+        p2.add_run('z')
         p2.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
         p2 = row0.cells[4].paragraphs[0]
-        p2.add_run('data4')
+        p2.add_run('所属类别')
         p2.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        import database
-        minedata = database.getminedata()
+        try:
+            import pandas as pd
+            import helper
+            df = pd.read_csv(helper.data_path, header=None)
+            dataset = df.values[0:5][:, 1:].transpose()[:, [0, 2, 3, 4, 1]]
+            rowNum = dataset.shape[0]
+        except:
+            print("generateContent2 catch exception: 读取文件出错")
         rownum = 1
         for i in arguments[1]:
-            row0 = table.rows[rownum]
-            rownum += 1
-            for j in range(5):
-                p1 = row0.cells[j].paragraphs[0]
-                p1.add_run(str(minedata[i][j]))
-                p1.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            if i < rowNum:
+                row0 = table.rows[rownum]
+                rownum += 1
+                for j in range(5):
+                    p1 = row0.cells[j].paragraphs[0]
+                    p1.add_run(str(dataset[i][j]))
+                    p1.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
         for i in range(0, row):
             if i == 0:
@@ -317,10 +325,10 @@ def generateContent2(document, arguments, doc_content2=""):
             for j in range(0, column):
                 table.cell(i, j).vertical_alignment = WD_ALIGN_VERTICAL.CENTER
                 if j == 0:
-                    table.cell(i, 0).width = Cm(2)
+                    table.cell(i, 0).width = Cm(4)
                 else:
                     # print(table.cell(i, j).width)
-                    table.cell(i, j).width = Cm(4)
+                    table.cell(i, j).width = Cm(3)
 
     # doc_2_tablename
     p = document.add_paragraph("表2.1 "+arguments[0])

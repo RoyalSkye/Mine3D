@@ -64,7 +64,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="importTab">
        <attribute name="title">
@@ -246,44 +246,6 @@
            <string> 预测矿岩类别</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_11">
-           <item row="2" column="2">
-            <widget class="QPushButton" name="prediction">
-             <property name="text">
-              <string>开始预测</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QTableWidget" name="prediction_table"/>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_29">
-             <property name="text">
-              <string>预测结果: </string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="filepath2_2">
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_28">
-             <property name="text">
-              <string>导入光谱数据: </string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QPushButton" name="button2_2">
-             <property name="text">
-              <string>选择文件</string>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="0" colspan="3">
             <widget class="QGroupBox" name="groupBox_10">
              <property name="title">
@@ -331,6 +293,60 @@
              </layout>
             </widget>
            </item>
+           <item row="2" column="1">
+            <widget class="QTableWidget" name="prediction_table"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_29">
+             <property name="text">
+              <string>预测结果: </string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="filepath2_2">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_28">
+             <property name="text">
+              <string>导入光谱数据: </string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QPushButton" name="button2_2">
+             <property name="text">
+              <string>选择文件</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QGroupBox" name="groupBox_11">
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <item>
+               <widget class="QPushButton" name="prediction">
+                <property name="text">
+                 <string>开始预测</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="virtualization">
+                <property name="text">
+                 <string>可视化</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -368,6 +384,13 @@
              </property>
             </widget>
            </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="pointcloud_status">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -375,11 +398,28 @@
       </widget>
       <widget class="QWidget" name="datatableTab">
        <attribute name="title">
-        <string>查看数据</string>
+        <string>查看数据集</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QTableWidget" name="tableWidget"/>
+       <layout class="QGridLayout" name="gridLayout_14">
+        <item row="1" column="0">
+         <widget class="QTableWidget" name="tableWidget">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QTreeView" name="table_dataset">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -394,7 +434,7 @@
            <enum>QTabWidget::South</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="cover">
            <attribute name="title">
@@ -603,22 +643,6 @@
                  </property>
                 </widget>
                </item>
-               <item row="17" column="1">
-                <widget class="QLabel" name="doc_status">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="wordWrap">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
                <item row="11" column="1">
                 <widget class="QCheckBox" name="doc_2">
                  <property name="text">
@@ -683,7 +707,7 @@
                   <string>选择路径*:</string>
                  </property>
                  <property name="checkable">
-                  <bool>true</bool>
+                  <bool>false</bool>
                  </property>
                 </widget>
                </item>
@@ -724,7 +748,7 @@
                  </property>
                 </widget>
                </item>
-               <item row="17" column="3">
+               <item row="17" column="1" colspan="3">
                 <widget class="QGroupBox" name="groupBox_7">
                  <property name="autoFillBackground">
                   <bool>false</bool>
@@ -748,7 +772,7 @@
                      <string>refresh/clear</string>
                     </property>
                     <property name="checkable">
-                     <bool>true</bool>
+                     <bool>false</bool>
                     </property>
                     <property name="checked">
                      <bool>false</bool>
@@ -773,7 +797,7 @@
                      <string>生成报告</string>
                     </property>
                     <property name="checkable">
-                     <bool>true</bool>
+                     <bool>false</bool>
                     </property>
                    </widget>
                   </item>
@@ -816,6 +840,35 @@
             <string>2.数据表格</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_8">
+            <item row="5" column="0">
+             <widget class="QGroupBox" name="groupBox_4">
+              <property name="title">
+               <string/>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_7">
+               <item>
+                <widget class="QPushButton" name="doc_2_button2">
+                 <property name="text">
+                  <string>全选</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="doc_2_button3">
+                 <property name="text">
+                  <string>全不选</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
             <item row="2" column="1">
              <widget class="QGroupBox" name="groupBox_3">
               <property name="sizePolicy">
@@ -871,36 +924,7 @@
                   <string>选择</string>
                  </property>
                  <property name="checkable">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QGroupBox" name="groupBox_4">
-              <property name="title">
-               <string/>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_7">
-               <item>
-                <widget class="QPushButton" name="doc_2_button2">
-                 <property name="text">
-                  <string>全选</string>
-                 </property>
-                 <property name="checkable">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="doc_2_button3">
-                 <property name="text">
-                  <string>全不选</string>
-                 </property>
-                 <property name="checkable">
-                  <bool>true</bool>
+                  <bool>false</bool>
                  </property>
                 </widget>
                </item>
@@ -934,24 +958,14 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="1">
-             <widget class="QTableWidget" name="doc_2_table">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
+            <item row="6" column="0">
              <widget class="QLabel" name="label_25">
               <property name="text">
                <string>正文:</string>
               </property>
              </widget>
             </item>
-            <item row="4" column="1">
+            <item row="6" column="1">
              <widget class="QPlainTextEdit" name="doc_2_text">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -959,6 +973,35 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QGroupBox" name="groupBox_12">
+              <property name="title">
+               <string/>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_15">
+               <item row="1" column="0">
+                <widget class="QTableWidget" name="doc_2_table">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QTreeView" name="doc_2_file">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
            </layout>
@@ -1195,7 +1238,7 @@
                 <string>Send</string>
                </property>
                <property name="checkable">
-                <bool>true</bool>
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -1211,7 +1254,7 @@
                 <string>Clear</string>
                </property>
                <property name="checkable">
-                <bool>true</bool>
+                <bool>false</bool>
                </property>
                <property name="checked">
                 <bool>false</bool>
@@ -1230,7 +1273,7 @@
                 </size>
                </property>
                <property name="checkable">
-                <bool>true</bool>
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -1390,7 +1433,7 @@
                 <string>Source</string>
                </property>
                <property name="checkable">
-                <bool>true</bool>
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -1569,7 +1612,7 @@
                 <string>Source</string>
                </property>
                <property name="checkable">
-                <bool>true</bool>
+                <bool>false</bool>
                </property>
               </widget>
              </item>

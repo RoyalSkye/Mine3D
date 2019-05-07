@@ -6,10 +6,25 @@
       <change beforePath="$PROJECT_DIR$/UI/mainwindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/mainwindow.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/quicreator.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/quicreator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/quicreator.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UI/quicreator.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/测试(预测)数据集.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/训练数据集.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generateDocx.py" beforeDir="false" afterPath="$PROJECT_DIR$/generateDocx.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img1.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/img1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img10.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/img10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/img2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img3.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/img3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img4.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/img4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img5.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/img5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img6.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/img6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img7.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/img7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img8.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/img8.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml_data/PCA.py" beforeDir="false" afterPath="$PROJECT_DIR$/ml_data/PCA.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ml_data/SVM.py" beforeDir="false" afterPath="$PROJECT_DIR$/ml_data/SVM.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/svm4.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/model/svm4.pkl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/svmtmp.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/model/svmtmp.pkl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styledemo/quicreator.ui" beforeDir="false" afterPath="$PROJECT_DIR$/styledemo/quicreator.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styledemo/styledemo.pro.user" beforeDir="false" afterPath="$PROJECT_DIR$/styledemo/styledemo.pro.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tensorflow/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/ml_data/__init__.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,10 +33,10 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/20190302$main.coverage" NAME="main Coverage Results" MODIFIED="1557075991123" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/20190302$main.coverage" NAME="main Coverage Results" MODIFIED="1557132629265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/20190302$test__1_.coverage" NAME="test (1) Coverage Results" MODIFIED="1555592483024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
-    <SUITE FILE_PATH="coverage/20190302$PCA__1_.coverage" NAME="PCA (1) Coverage Results" MODIFIED="1557072552883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ml_data" />
-    <SUITE FILE_PATH="coverage/20190302$SVM__1_.coverage" NAME="SVM (1) Coverage Results" MODIFIED="1557075729112" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ml_data" />
+    <SUITE FILE_PATH="coverage/20190302$PCA__1_.coverage" NAME="PCA (1) Coverage Results" MODIFIED="1557109539848" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ml_data" />
+    <SUITE FILE_PATH="coverage/20190302$SVM__1_.coverage" NAME="SVM (1) Coverage Results" MODIFIED="1557110783066" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ml_data" />
     <SUITE FILE_PATH="coverage/20190302$OpenPCD__1_.coverage" NAME="OpenPCD Coverage Results" MODIFIED="1555337522070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Visualization" />
     <SUITE FILE_PATH="coverage/20190302$generateDocx.coverage" NAME="generateDocx Coverage Results" MODIFIED="1554898157082" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/20190302$email.coverage" NAME="email Coverage Results" MODIFIED="1553162334411" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -38,36 +53,33 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ml_data/PCA.py">
+        <entry file="file://$PROJECT_DIR$/UI/mainwindow.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="144" column="14" lean-forward="true" selection-start-line="144" selection-start-column="14" selection-end-line="144" selection-end-column="14" />
+            <state relative-caret-position="221">
+              <caret line="758" column="32" lean-forward="true" selection-start-line="758" selection-start-column="32" selection-end-line="758" selection-end-column="32" />
               <folding>
-                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ml_data/SVM.py">
+        <entry file="file://$PROJECT_DIR$/helper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3020">
-              <caret line="29" column="34" lean-forward="true" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="580">
+              <caret line="109" column="10" selection-start-line="109" selection-start-column="10" selection-end-line="109" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/UI/mainwindow.py">
+        <entry file="file://$PROJECT_DIR$/generateDocx.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="209" lean-forward="true" selection-start-line="209" selection-end-line="209" />
+            <state relative-caret-position="277">
+              <caret line="319" column="31" lean-forward="true" selection-start-line="319" selection-start-column="31" selection-end-line="319" selection-end-column="31" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#0#25#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -84,36 +96,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>img1</find>
-      <find>modelversion</find>
-      <find>pca_df</find>
-      <find>score</find>
-      <find>type</find>
-      <find>tra</find>
-      <find>warning</find>
-      <find>importFile</find>
-      <find>importFile1</find>
-      <find>initfont</find>
-      <find>QMessageBox</find>
-      <find>except</find>
-      <find>filetype</find>
-      <find>xls</find>
-      <find>images</find>
-      <find>shu</find>
-      <find>Hematite</find>
-      <find>threadpool</find>
-      <find>img6</find>
-      <find>update3d</find>
-      <find>csv</find>
-      <find>dataset</find>
-      <find>tmp</find>
-      <find>prediction</find>
-      <find>pre</find>
-      <find>doc_2_table</find>
-      <find>initdoc_2_table</find>
-      <find>tableWidget</find>
+      <find>attachment</find>
+      <find>initEmailBox</find>
+      <find>Table_da</find>
+      <find>getpath</find>
+      <find>pd</find>
+      <find>row</find>
+      <find>column</find>
       <find>initTableWidget</find>
-      <find>predic</find>
+      <find>doc_2_table</find>
+      <find>table_dataset</find>
+      <find>initTable_dataset</find>
+      <find>initDoc_2_file</find>
+      <find>showdataset</find>
+      <find>trans</find>
+      <find>transpose</find>
+      <find>doc_2_button2</find>
+      <find>warning</find>
+      <find>initdoc_2_table</find>
+      <find>doc_2_button1</find>
+      <find>doc_source</find>
+      <find>predict_result</find>
+      <find>data_path</find>
+      <find>helper.data_path</find>
+      <find>read_csv</find>
+      <find>content2helper</find>
+      <find>source</find>
+      <find>information</find>
+      <find>QMessageBox</find>
+      <find>success</find>
+      <find>doc_status</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -133,7 +145,6 @@
         <option value="$PROJECT_DIR$/generateEmail.py" />
         <option value="$PROJECT_DIR$/generateDocxtmp.py" />
         <option value="$PROJECT_DIR$/database.py" />
-        <option value="$PROJECT_DIR$/generateDocx.py" />
         <option value="$PROJECT_DIR$/UI/login.py" />
         <option value="$PROJECT_DIR$/3D visualization/MeshTool.py" />
         <option value="$PROJECT_DIR$/3D visualization/MyGL.py" />
@@ -155,12 +166,13 @@
         <option value="$PROJECT_DIR$/ml-data/SVM.py" />
         <option value="$PROJECT_DIR$/ml_data/tensorflow.py" />
         <option value="$PROJECT_DIR$/ml_data/tensorflow1.py" />
-        <option value="$PROJECT_DIR$/helper.py" />
         <option value="$PROJECT_DIR$/ml_data/SVM1.py" />
-        <option value="$PROJECT_DIR$/UI/loginMainWindow.py" />
-        <option value="$PROJECT_DIR$/ml_data/PCA.py" />
         <option value="$PROJECT_DIR$/ml_data/SVM.py" />
+        <option value="$PROJECT_DIR$/ml_data/PCA.py" />
+        <option value="$PROJECT_DIR$/UI/loginMainWindow.py" />
+        <option value="$PROJECT_DIR$/helper.py" />
         <option value="$PROJECT_DIR$/UI/mainwindow.py" />
+        <option value="$PROJECT_DIR$/generateDocx.py" />
       </list>
     </option>
   </component>
@@ -182,31 +194,6 @@
             <path>
               <item name="20190302" type="b2602c69:ProjectViewProjectNode" />
               <item name="20190302" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="20190302" type="b2602c69:ProjectViewProjectNode" />
-              <item name="20190302" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="20190302" type="b2602c69:ProjectViewProjectNode" />
-              <item name="20190302" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="20190302" type="b2602c69:ProjectViewProjectNode" />
-              <item name="20190302" type="462c0819:PsiDirectoryNode" />
-              <item name="ml_data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="20190302" type="b2602c69:ProjectViewProjectNode" />
-              <item name="20190302" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="20190302" type="b2602c69:ProjectViewProjectNode" />
-              <item name="20190302" type="462c0819:PsiDirectoryNode" />
-              <item name="UI" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -440,17 +427,18 @@
       <workItem from="1556930537890" duration="9084000" />
       <workItem from="1556945766075" duration="16315000" />
       <workItem from="1556986634325" duration="41268000" />
+      <workItem from="1557108576468" duration="16865000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="288948000" />
+    <option name="totallyTimeSpent" value="305813000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18742369" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1892552" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -469,7 +457,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" anchor="right" id="SciView" order="3" visible="true" weight="0.3009768" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.30525032" />
       <window_info anchor="right" id="Database" order="4" />
     </layout>
   </component>
@@ -481,7 +469,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/UI/quicreator.py</url>
-          <line>901</line>
+          <line>931</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -493,34 +481,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///anaconda3/envs/tensorflow/lib/python3.6/logging/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="1844" selection-start-line="1844" selection-end-line="1844" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///anaconda3/envs/tensorflow/lib/python3.6/site-packages/OpenGL/logs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="90" selection-start-line="90" selection-end-line="90" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///anaconda3/envs/tensorflow/lib/python3.6/site-packages/OpenGL/platform/baseplatform.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="401" column="37" selection-start-line="401" selection-start-column="8" selection-end-line="401" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///anaconda3/envs/tensorflow/lib/python3.6/_bootlocale.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///anaconda3/envs/tensorflow/lib/python3.6/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
@@ -726,23 +686,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="25" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/UI/loginMainWindow.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="36" column="50" selection-start-line="36" selection-start-column="50" selection-end-line="36" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///anaconda3/envs/tensorflow/lib/python3.6/threading.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -780,9 +723,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/svm4.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/model/svm4.png" />
     <entry file="file://$PROJECT_DIR$/images/img4.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -798,32 +739,76 @@
     <entry file="file://$PROJECT_DIR$/images/img5.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/ml_data/PCA.py">
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.3/python_stubs/-424745351/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="144" column="14" lean-forward="true" selection-start-line="144" selection-start-column="14" selection-end-line="144" selection-end-column="14" />
+        <state relative-caret-position="210">
+          <caret line="3751" column="6" selection-start-line="3751" selection-start-column="6" selection-end-line="3751" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///anaconda3/envs/tensorflow/lib/python3.6/site-packages/pandas/io/parsers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="701" selection-start-line="701" selection-end-line="701" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/training_tmp_dataset.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UI/loginMainWindow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="40" column="78" selection-start-line="40" selection-start-column="78" selection-end-line="40" selection-end-column="78" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ml_data/SVM.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3020">
-          <caret line="29" column="34" lean-forward="true" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
+        <state relative-caret-position="162">
+          <caret line="243" column="25" lean-forward="true" selection-start-line="243" selection-start-column="25" selection-end-line="243" selection-end-column="25" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ml_data/PCA.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="113" column="24" lean-forward="true" selection-start-line="113" selection-start-column="24" selection-end-line="113" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="580">
+          <caret line="109" column="10" selection-start-line="109" selection-start-column="10" selection-end-line="109" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/UI/mainwindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="209" lean-forward="true" selection-start-line="209" selection-end-line="209" />
+        <state relative-caret-position="221">
+          <caret line="758" column="32" lean-forward="true" selection-start-line="758" selection-start-column="32" selection-end-line="758" selection-end-column="32" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generateDocx.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="319" column="31" lean-forward="true" selection-start-line="319" selection-start-column="31" selection-end-line="319" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>

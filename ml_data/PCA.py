@@ -110,7 +110,7 @@ def pca1(data_path):
     colNum = df.columns.size
 
     dataset = df.values
-    tmp = dataset[0:2][:,1:].transpose()
+    tmp = dataset[0:5][:,1:].transpose()
     samples = dataset[0]
     samples = samples[1:]
     samples = samples.tolist()
@@ -156,4 +156,4 @@ def pca1(data_path):
     return dataset
 
 # pca1('/Users/skye/PycharmProjects/20190302/data/光谱数据.xls')
-# pca1('/Users/skye/PycharmProjects/20190302/data/光谱数据.csv')
+# pca1('/Users/skye/PycharmProjects/20190302/data/测试(预测)数据集.csv')

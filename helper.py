@@ -102,3 +102,9 @@ global modelversion
 modelversion = "light"
 global threadpool
 threadpool = []
+global predict_result
+predict_result = []
+global data_path
+data_path = ''
+global rownum
+rownum = 0

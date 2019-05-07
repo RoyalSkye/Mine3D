@@ -32,15 +32,17 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             self.MailgroupBox.setChecked(False)
             self.MailgroupBox.toggled.connect(self.setuncheckable)
 
-        self.initTableWidget()
+        # self.initTableWidget()
         # self.initfont()
         self.initEmailBox()
         self.initreceiver()
+        self.initTable_dataset()
+        self.initDoc_2_file()
         self.attachList = []  # 附件列表
         self.initemailsetting()
         self.initcover()
         self.initdoc_1_tableview()
-        self.initdoc_2_table()
+        # self.initdoc_2_table()
         # global variables
         self.doc_3_picpath1 = ""
         self.doc_3_picpath2 = ""
@@ -114,21 +116,39 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         # str1 = index.data()
         # print(str1)
 
-    def initTableWidget(self):
-        minedata = database.getminedata()
-        if minedata:
-            self.tableWidget.setRowCount(len(minedata))
-            self.tableWidget.setColumnCount(len(minedata[0]))
-            self.tableWidget.setHorizontalHeaderLabels(['id', 'data1', 'data2', 'data3', 'data4'])
-            self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
-            self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+    def initTableWidget(self, file_path):
+        import pandas as pd
+        df = pd.read_csv(file_path, header=None)
+        # print(df)
+        dataset = df.values[0:5][:,1:].transpose()[:,[0,2,3,4,1]]
+        rowNum = dataset.shape[0]
+        colNum = dataset.shape[1]
+        # print(dataset)
+        self.tableWidget.setRowCount(rowNum)
+        self.tableWidget.setColumnCount(colNum)
+        self.tableWidget.setHorizontalHeaderLabels(['样本编号', 'x', 'y', 'z', '所属类别'])
+        self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        for i in range(0, rowNum):
+            for j in range(0, colNum):
+                item = QtWidgets.QTableWidgetItem(str(dataset[i][j]))
+                item.setTextAlignment(Qt.AlignCenter)
+                self.tableWidget.setItem(i, j, item)
 
-            for i in range(0, len(minedata)):
-                for j in range(0, len(minedata[i])):
-                    item = QtWidgets.QTableWidgetItem(str(minedata[i][j]))
-                    item.setTextAlignment(Qt.AlignCenter)
-                    self.tableWidget.setItem(i, j, item)
-                    # self.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem(str(minedata[i][j])))
+        # minedata = database.getminedata()
+        # if minedata:
+        #     self.tableWidget.setRowCount(len(minedata))
+        #     self.tableWidget.setColumnCount(len(minedata[0]))
+        #     self.tableWidget.setHorizontalHeaderLabels(['id', 'data1', 'data2', 'data3', 'data4'])
+        #     self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        #     self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        #
+        #     for i in range(0, len(minedata)):
+        #         for j in range(0, len(minedata[i])):
+        #             item = QtWidgets.QTableWidgetItem(str(minedata[i][j]))
+        #             item.setTextAlignment(Qt.AlignCenter)
+        #             self.tableWidget.setItem(i, j, item)
+        #             # self.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem(str(minedata[i][j])))
 
             # problem 1: id = QtWidgets.QTableWidgetItem(entry[0])
             # if QtWidgets.QTableWidgetItem(id) the data will not shown on the table
@@ -146,8 +166,55 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             #     self.tableWidget.setItem(i, 3, data3)
             #     self.tableWidget.setItem(i, 4, data4)
             #     i = i + 1
+        # else:
+        #     print("data is null!")
+
+    def initTable_dataset(self):
+        from PyQt5.QtWidgets import QFileSystemModel
+        model = QFileSystemModel()
+        dir = os.getcwd() + '/data/ml_dataset'
+        model.setRootPath(dir)
+        self.table_dataset.setModel(model)
+        self.table_dataset.setColumnWidth(0, 200)
+        self.table_dataset.setColumnWidth(1, 150)
+        self.table_dataset.setColumnWidth(2, 150)
+        self.table_dataset.setRootIndex(model.index(dir))
+        self.table_dataset.doubleClicked.connect(lambda: self.showdataset(0))
+
+    def initDoc_2_file(self):
+        from PyQt5.QtWidgets import QFileSystemModel
+        model = QFileSystemModel()
+        dir = os.getcwd() + '/data/ml_dataset'
+        model.setRootPath(dir)
+        self.doc_2_file.setModel(model)
+        self.doc_2_file.setColumnWidth(0, 200)
+        self.doc_2_file.setColumnWidth(1, 100)
+        self.doc_2_file.setColumnWidth(2, 100)
+        self.doc_2_file.setRootIndex(model.index(dir))
+        self.doc_2_file.doubleClicked.connect(lambda: self.showdataset(1))
+
+    def showdataset(self, whichone):
+        print(whichone)
+        if whichone == 0:
+            index = self.table_dataset.currentIndex()
         else:
-            print("data is null!")
+            index = self.doc_2_file.currentIndex()
+        model = index.model()
+        file_path = model.filePath(index)
+        import re
+        result = re.findall(r'\.[^.\\/:*?"<>|\r\n]+$', file_path)
+        if '.csv' in result:
+            try:
+                if whichone == 0:
+                    self.initTableWidget(file_path)
+                else:
+                    self.initdoc_2_table(file_path)
+            except:
+                print("表格生成: catch exception")
+                reply = QMessageBox.warning(self, 'Message', '<font color="black">表格生成错误，请检查数据格式！', QMessageBox.Ok,
+                                            QMessageBox.Ok)
+        else:
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">不支持的文件格式！', QMessageBox.Ok, QMessageBox.Ok)
 
     def initEmailBox(self):
         from PyQt5.QtWidgets import QFileSystemModel
@@ -199,7 +266,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         # print(result)
         self.prediction_table.setRowCount(result.shape[0])
         self.prediction_table.setColumnCount(result.shape[1])
-        self.prediction_table.setHorizontalHeaderLabels(['样本编号', '预测结果'])
+        self.prediction_table.setHorizontalHeaderLabels(['样本编号', 'x', 'y', 'z', '预测结果'])
         self.prediction_table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
         self.prediction_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         for i in range(0, result.shape[0]):
@@ -208,30 +275,52 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 item.setTextAlignment(Qt.AlignCenter)
                 self.prediction_table.setItem(i, j, item)
 
-    def initdoc_2_table(self):
-        minedata = database.getminedata()
-        if minedata:
-            self.doc_2_table.setRowCount(len(minedata))
-            self.doc_2_table.setColumnCount(len(minedata[0]))
-            self.doc_2_table.setHorizontalHeaderLabels(['checked', 'data1', 'data2', 'data3', 'data4'])
-            self.doc_2_table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
-            self.doc_2_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-            # self.doc_2_table.verticalHeader().setVisible(False)
-            count = 1
-            for i in range(0, len(minedata)):
-                self.check = QtWidgets.QTableWidgetItem()
-                self.check.setCheckState(Qt.Checked)
-                self.check.setText(str(count))
-                count += 1
-                # self.check.setTextAlignment(Qt.AlignCenter)
-                # self.check.setBackground(Qt.black)
-                self.doc_2_table.setItem(i, 0, self.check)
-                for j in range(1, len(minedata[i])):
-                    item = QtWidgets.QTableWidgetItem(str(minedata[i][j]))
-                    item.setTextAlignment(Qt.AlignCenter)
-                    self.doc_2_table.setItem(i, j, item)
-        else:
-            print("data is null!")
+    def initdoc_2_table(self, file_path):
+        import pandas as pd
+        df = pd.read_csv(file_path, header=None)
+        # print(df)
+        dataset = df.values[0:5][:, 1:].transpose()[:, [0, 2, 3, 4, 1]]
+        rowNum = dataset.shape[0]
+        colNum = dataset.shape[1]
+        self.doc_2_table.setRowCount(rowNum)
+        self.doc_2_table.setColumnCount(colNum)
+        self.doc_2_table.setHorizontalHeaderLabels(['样本编号', 'x', 'y', 'z', '所属类别'])
+        self.doc_2_table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        self.doc_2_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        for i in range(0, rowNum):
+            self.check = QtWidgets.QTableWidgetItem()
+            self.check.setCheckState(Qt.Checked)
+            self.check.setText(str(dataset[i][0]))
+            self.doc_2_table.setItem(i, 0, self.check)
+            for j in range(1, colNum):
+                item = QtWidgets.QTableWidgetItem(str(dataset[i][j]))
+                item.setTextAlignment(Qt.AlignCenter)
+                self.doc_2_table.setItem(i, j, item)
+        helper.data_path = file_path
+        helper.rownum = rowNum
+        # minedata = database.getminedata()
+        # if minedata:
+        #     self.doc_2_table.setRowCount(len(minedata))
+        #     self.doc_2_table.setColumnCount(len(minedata[0]))
+        #     self.doc_2_table.setHorizontalHeaderLabels(['checked', 'data1', 'data2', 'data3', 'data4'])
+        #     self.doc_2_table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        #     self.doc_2_table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        #     # self.doc_2_table.verticalHeader().setVisible(False)
+        #     count = 1
+        #     for i in range(0, len(minedata)):
+        #         self.check = QtWidgets.QTableWidgetItem()
+        #         self.check.setCheckState(Qt.Checked)
+        #         self.check.setText(str(count))
+        #         count += 1
+        #         # self.check.setTextAlignment(Qt.AlignCenter)
+        #         # self.check.setBackground(Qt.black)
+        #         self.doc_2_table.setItem(i, 0, self.check)
+        #         for j in range(1, len(minedata[i])):
+        #             item = QtWidgets.QTableWidgetItem(str(minedata[i][j]))
+        #             item.setTextAlignment(Qt.AlignCenter)
+        #             self.doc_2_table.setItem(i, j, item)
+        # else:
+        #     print("data is null!")
 
 
     # 槽函数会执行2次if不写装饰器@pyqtSlot()
@@ -257,8 +346,8 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         import pandas as pd
         data_path = self.filepath2_1.text()
         if data_path:
-            # data_path = '/Users/skye/Desktop/test.txt'
             df = pd.read_csv(data_path, sep=' ', header=None)
+            # print(df)
             rowNum = df.shape[0]  # 不包括表头
             colNum = df.columns.size
             if colNum != 3:
@@ -267,10 +356,14 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 try:
                     pointcloud = df.values
                     print(pointcloud)
-                    # pass pointcloud to 3d method - to be continued
+                    # pass pointcloud to 3d virtualization with try except
                 except:
                     print("update3d catch exception")
                     reply = QMessageBox.warning(self, 'Message', '<font color="black">生成建模错误，请检查数据！', QMessageBox.Ok, QMessageBox.Ok)
+                else:
+                    import shutil
+                    shutil.copy(data_path, "./data/pointcloud/点云数据.csv")
+                    self.pointcloud_status.setText("建模生成完毕！")
         else:
             reply = QMessageBox.warning(self, 'Message', '<font color="black">文件路径错误！', QMessageBox.Ok, QMessageBox.Ok)
 
@@ -281,6 +374,14 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         if len(filename) == 0:
             return
         self.filepath2_2.setText(filename)
+
+    @pyqtSlot()
+    def on_virtualization_clicked(self):
+        if len(helper.predict_result) != 0:
+            print(helper.predict_result)
+            # pass helper.predict_result to 3d virtualization with try except
+        else:
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">尚未预测任何数据！', QMessageBox.Ok, QMessageBox.Ok)
 
     @pyqtSlot()
     def on_prediction_clicked(self):
@@ -297,6 +398,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 import shutil
                 shutil.copy("./images/img5.png", "./images/img9.png")
                 shutil.copy("./images/img7.png", "./images/img10.png")
+                shutil.copy(path, "./data/ml_dataset/预测数据集.csv")
                 img9 = QImage("./images/img9.png")
                 size = QSize(320, 240)
                 pixmap = QPixmap.fromImage(img9.scaled(size, Qt.IgnoreAspectRatio))
@@ -308,13 +410,15 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 self.pre_pic_2.resize(320, 240)
                 self.pre_pic_2.setPixmap(pixmap)
                 self.initprediction_table(result)
+                helper.predict_result = result
         else:
             reply = QMessageBox.warning(self, 'Message', '<font color="black">文件路径错误！', QMessageBox.Ok, QMessageBox.Ok)
 
     @pyqtSlot()
     def on_training_clicked(self):
         filename = self.path.text()
-        newfilename = './data/' + helper.Helper.generateTimestamp() + '.csv'
+        # newfilename = './data/' + helper.Helper.generateTimestamp() + '.csv'
+        newfilename = './data/ml_dataset/training_tmp_dataset.csv'
         if filename == '' or not helper.Helper.validatepath(filename):
             reply = QMessageBox.warning(self, 'Message', '<font color="black">请选择正确的文件路径！', QMessageBox.Ok, QMessageBox.Ok)
             return
@@ -441,36 +545,47 @@ class MainWindow(QMainWindow, Ui_QUICreator):
 
     @pyqtSlot()
     def on_doc_2_button1_clicked(self):
-        minedata = database.getminedata()
-        count = len(minedata)
-        try:
-            start = int(self.doc_2_start.text())
-            end = int(self.doc_2_end.text())
-        except:
-            print("catch Exception")
-            self.doc_2_status.setText("please input valid range")
+        if helper.data_path == '' or helper.rownum == 0:
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">请选择数据文件',
+                                        QMessageBox.Ok, QMessageBox.Ok)
         else:
-            if start > 0 and start <= count and end > 0 and end <= count:
-                for i in range(start, end + 1):
-                    self.doc_2_table.item(i-1, 0).setCheckState(Qt.Checked)
-                self.doc_2_status.clear()
+            rowNum = helper.rownum
+            try:
+                start = int(self.doc_2_start.text())
+                end = int(self.doc_2_end.text())
+            except:
+                reply = QMessageBox.warning(self, 'Message', '<font color="black">please input valid range',
+                                            QMessageBox.Ok, QMessageBox.Ok)
+                # self.doc_2_status.setText("please input valid range")
             else:
-                print("input out of range")
-                self.doc_2_status.setText("please input valid range")
+                if start > 0 and start <= rowNum and end > 0 and end <= rowNum:
+                    for i in range(start, end + 1):
+                        self.doc_2_table.item(i - 1, 0).setCheckState(Qt.Checked)
+                    # self.doc_2_status.clear()
+                else:
+                    reply = QMessageBox.warning(self, 'Message', '<font color="black">please input valid range',
+                                                QMessageBox.Ok, QMessageBox.Ok)
+                    # self.doc_2_status.setText("please input valid range")
 
     @pyqtSlot()
     def on_doc_2_button2_clicked(self):
-        minedata = database.getminedata()
-        count = len(minedata)
-        for i in range(count):
-            self.doc_2_table.item(i, 0).setCheckState(Qt.Checked)
+        if helper.data_path == '' or helper.rownum == 0:
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">请选择数据文件',
+                                        QMessageBox.Ok, QMessageBox.Ok)
+        else:
+            rowNum = helper.rownum
+            for i in range(rowNum):
+                self.doc_2_table.item(i, 0).setCheckState(Qt.Checked)
 
     @pyqtSlot()
     def on_doc_2_button3_clicked(self):
-        minedata = database.getminedata()
-        count = len(minedata)
-        for i in range(count):
-            self.doc_2_table.item(i, 0).setCheckState(Qt.Unchecked)
+        if helper.data_path == '' or helper.rownum == 0:
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">请选择数据文件',
+                                        QMessageBox.Ok, QMessageBox.Ok)
+        else:
+            rowNum = helper.rownum
+            for i in range(rowNum):
+                self.doc_2_table.item(i, 0).setCheckState(Qt.Unchecked)
 
     @pyqtSlot()
     def on_doc_3_button1_clicked(self):
@@ -555,7 +670,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
     def on_doc_clear_clicked(self):
         self.initcover()
         self.initdoc_1_tableview()
-        self.initdoc_2_table()
+        # self.initdoc_2_table()
         self.doc_3_picpath1 = ""
         self.doc_3_picpath2 = ""
         self.doc_path.clear()
@@ -583,7 +698,8 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             generateDocx.generateCover(document, doc_heading=self.doc_heading.text(), doc_company=self.doc_company.text(), doc_code=self.doc_code.text(),
                                        doc_type=self.doc_type.text(), doc_reporter=self.doc_reporter.text(), doc_date=self.doc_date.text())
         else:
-            self.doc_status.setText("Error: Existing blank lable")
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">Error: Existing blank lable', QMessageBox.Ok, QMessageBox.Ok)
+            # self.doc_status.setText("Error: Existing blank lable")
             return
 
         # generate directory
@@ -594,28 +710,36 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             if self.doc_content1.text():
                 catalogContent.append(self.doc_content1.text())
             else:
-                self.doc_status.setText("Error: Blank CatalogContent")
+                reply = QMessageBox.warning(self, 'Message', '<font color="black">Error: Blank CatalogContent',
+                                            QMessageBox.Ok, QMessageBox.Ok)
+                # self.doc_status.setText("Error: Blank CatalogContent")
                 return
         if self.doc_2.isChecked():
             catalog.append(2)
             if self.doc_content2.text():
                 catalogContent.append(self.doc_content2.text())
             else:
-                self.doc_status.setText("Error: Blank CatalogContent")
+                reply = QMessageBox.warning(self, 'Message', '<font color="black">Error: Blank CatalogContent',
+                                            QMessageBox.Ok, QMessageBox.Ok)
+                # self.doc_status.setText("Error: Blank CatalogContent")
                 return
         if self.doc_3.isChecked():
             catalog.append(3)
             if self.doc_content3.text():
                 catalogContent.append(self.doc_content3.text())
             else:
-                self.doc_status.setText("Error: Blank CatalogContent")
+                reply = QMessageBox.warning(self, 'Message', '<font color="black">Error: Blank CatalogContent',
+                                            QMessageBox.Ok, QMessageBox.Ok)
+                # self.doc_status.setText("Error: Blank CatalogContent")
                 return
         if self.doc_4.isChecked():
             catalog.append(4)
             if self.doc_content4.text():
                 catalogContent.append(self.doc_content4.text())
             else:
-                self.doc_status.setText("Error: Blank CatalogContent")
+                reply = QMessageBox.warning(self, 'Message', '<font color="black">Error: Blank CatalogContent',
+                                            QMessageBox.Ok, QMessageBox.Ok)
+                # self.doc_status.setText("Error: Blank CatalogContent")
                 return
         generateDocx.generateCatalog(document, catalog, catalogContent, doc_code=self.doc_code.text(), doc_heading=self.doc_heading.text())
 
@@ -639,12 +763,16 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 print(path)
                 # path = '/Users/skye/Desktop/demo1.docx'
                 generateDocx.generatedoc(document, path)
-                self.doc_status.setText("generate report successfully")
+                reply = QMessageBox.information(self, 'Message', '<font color="black">报告生成完毕', QMessageBox.Ok, QMessageBox.Ok)
             else:
-                self.doc_status.setText("Error: please choose the valid path")
+                reply = QMessageBox.warning(self, 'Message', '<font color="black">Error: please choose the valid path',
+                                            QMessageBox.Ok, QMessageBox.Ok)
+                # self.doc_status.setText("Error: please choose the valid path")
                 return
         else:
-            self.doc_status.setText("Error: please input valid filename")
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">Error: please input valid filename',
+                                        QMessageBox.Ok, QMessageBox.Ok)
+            # self.doc_status.setText("Error: please input valid filename")
             return
 
     def getpath(self):
@@ -699,8 +827,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             # reply = QMessageBox.warning(self, 'Message', '<font color="black">please input the tablename(from Tab2)', QMessageBox.Ok)
             # # if reply == QMessageBox.Ok:
             # #     print("test")
-        minedata = database.getminedata()
-        count = len(minedata)
+        count = helper.rownum
         nums = []
         for i in range(count):
             # print(self.doc_2_table.item(i, 0).checkState())
@@ -742,6 +869,10 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         if reply == QMessageBox.Cancel:
             return
         helper.modelversion = "dark"
+        helper.threadpool = []
+        helper.predict_result = []
+        helper.data_path = ''
+        helper.rownum = 0
         self.windowList = []
         SecondmainWindow = MainWindow()
         self.windowList.append(SecondmainWindow)
@@ -761,6 +892,10 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         if reply == QMessageBox.Cancel:
             return
         helper.modelversion = "light"
+        helper.threadpool = []
+        helper.predict_result = []
+        helper.data_path = ''
+        helper.rownum = 0
         self.windowList = []
         SecondmainWindow = MainWindow()
         self.windowList.append(SecondmainWindow)
@@ -799,6 +934,10 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         if reply == QMessageBox.No:
             pass
         else:
+            helper.predict_result = []
+            helper.threadpool = []
+            helper.data_path = ''
+            helper.rownum = 0
             from UI.loginMainWindow import loginMainWindow
             self.windowList = []
             FirstmainWindow = loginMainWindow()
@@ -839,12 +978,15 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             shutil.copy("./images/img7.png", "./images/img3.png")
             shutil.copy("./images/img8.png", "./images/img4.png")
             shutil.copy("./model/svmtmp.pkl", "./model/svm4.pkl")
+            shutil.copy("./data/ml_dataset/training_tmp_dataset.csv", "./data/ml_dataset/训练数据集.csv")
             self.showimg()
             helper.threadpool = []
             text = 'SVM model 准确率为: ' + str(map['accuracy']) + '\n\n'
             text = text + map['training_report']
             self.training_report.appendPlainText(text)
             self.importStatus.setText("training completed!")
+            print(map['result'])
+            # pass map['result'] to 3d virtualization with try except
 
     def showimg(self):
         img1 = QImage("./images/img1.png")

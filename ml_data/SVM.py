@@ -165,9 +165,10 @@ def svm(filepath):
 
 def svm1(data_path):
     dataset = p.pca1(data_path)
-    print(dataset)
+    # print(dataset)
     # prepare data for SVM
-    train_X = dataset[:, 2:]
+    samples = dataset[:,[0,2,3,4]]
+    train_X = dataset[:, 5:]
     train_y = dataset[:, 1].astype('float').astype('int')
     target_names = ["Hematite", "magnetite", "martite"]
     count = 0
@@ -192,8 +193,8 @@ def svm1(data_path):
             if float(row[1]) == i:
                 namex = 'x' + str(i)
                 namey = 'y' + str(i)
-                mapx[namex].append(row[2])
-                mapy[namey].append(row[3])
+                mapx[namex].append(row[5])
+                mapy[namey].append(row[6])
                 break
     scatter = []
     markers = ['o', 'x', 'v', '.', '^', '<', '>', '1', '2', '3', '4', '8'
@@ -244,13 +245,16 @@ def svm1(data_path):
     map = {}
     map['training_report'] = training_report
     map['accuracy'] = clf.score(train_X, train_y)
+    result = np.column_stack((samples, y_pred))
+    map['result'] = result
     return map
 
 def prediction(data_path):
     dataset = p.pca1(data_path)
-    print(dataset)
-    samples = dataset[:, 0]
-    train_X = dataset[:, 2:]
+    # print(dataset)
+    samples = dataset[:, [0,2,3,4]]
+    train_X = dataset[:, 5:]
+    # print(train_X)
     # train_y = dataset[:, 1].astype('float').astype('int')
     from sklearn.externals import joblib
     clf = joblib.load('/Users/skye/PycharmProjects/20190302/model/svm4.pkl')
@@ -262,5 +266,5 @@ def prediction(data_path):
     return result
 
 # svm1('/Users/skye/PycharmProjects/20190302/data/光谱数据.xls')
-# svm1('/Users/skye/PycharmProjects/20190302/data/光谱数据.csv')
-prediction('/Users/skye/PycharmProjects/20190302/data/测试(预测)数据集.csv')
+# svm1('/Users/skye/PycharmProjects/20190302/data/训练数据集.csv')
+# prediction('/Users/skye/PycharmProjects/20190302/data/测试(预测)数据集.csv')
