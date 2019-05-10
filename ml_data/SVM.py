@@ -6,11 +6,12 @@ from sklearn import svm as svm1
 import matplotlib.pyplot as plt
 import ml_data.PCA as p
 from sklearn.model_selection import train_test_split
+from ml_data.LDA import lda1
 from sklearn.metrics import confusion_matrix
 from sklearn.utils.multiclass import unique_labels
 
 # 将分类器绘制到图中
-def plot_classifier(classifier, X, y):
+def plot_classifier(classifier, X, y, path):
     x_min, x_max = min(X[:, 0]) - 1.0, max(X[:, 0]) + 1.0 # 计算图中坐标的范围
     y_min, y_max = min(X[:, 1]) - 1.0, max(X[:, 1]) + 1.0
     step_size = 0.1  # 0.01 too time-consuming !!
@@ -32,13 +33,13 @@ def plot_classifier(classifier, X, y):
     # print(int(max(X[:, 1]))) # 30
     plt.xticks((np.arange(int(min(X[:, 0])), int(max(X[:, 0])), 20.0)))
     plt.yticks((np.arange(int(min(X[:, 1])), int(max(X[:, 1])), 10.0)))
-    plt.savefig("./images/img7.png")
+    plt.savefig(path)
     plt.show()
 
-def plot_confusion_matrix(y_true, y_pred, classes,
+def plot_confusion_matrix(y_true, y_pred, classes, path,
                           normalize=False,
                           title=None,
-                          cmap=plt.cm.Blues):
+                          cmap=plt.cm.Blues,):
     """
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
@@ -86,82 +87,82 @@ def plot_confusion_matrix(y_true, y_pred, classes,
                     ha="center", va="center",
                     color="white" if cm[i, j] > thresh else "black")
     fig.tight_layout()
-    plt.savefig("./images/img8.png")
+    plt.savefig(path)
     plt.show()
     return ax
 
-def svm(filepath):
-    data = p.pca(filepath)
-    x0 = []
-    y0 = []
-    x1 = []
-    y1 = []
-    x = []
-    y = []
-    for key in data.keys():
-        tmp = data.get(key)
-        if tmp[2] == "赤铁矿":
-            x0.append(tmp[0])
-            y0.append(tmp[1])
-            x.append([tmp[0], tmp[1]])
-            y.append(0)
-        elif tmp[2] == "假象矿":
-            x1.append(tmp[0])
-            y1.append(tmp[1])
-            x.append([tmp[0], tmp[1]])
-            y.append(1)
-        else:
-            pass
-    scatter0 = plt.scatter(x0, y0, c='b', marker='o')
-    scatter1 = plt.scatter(x1, y1, c='r', marker='x')
-    plt.legend(handles=[scatter0, scatter1], labels=["Hematite", "martite"], loc="best")
-    plt.savefig("./images/img2.png")
-    plt.show()
-
-    # SVM
-    train_X = np.array(x)
-    train_y = np.array(y)
-    # print(model.score(X, Y))
-
-    import time
-    time_start = time.time()
-    # 第一种：使用多项式核函数：
-    # classifier_poly = SVC(kernel='poly', degree=3, probability=True)  # 三次多项式方程
-    classifier_poly = SVC(kernel='poly', degree=3)
-    classifier_poly.fit(train_X, train_y)
-    time_end = time.time()
-    print('SVM: ', time_end - time_start, 's')
-
-    # save svm model
-    from sklearn.externals import joblib
-    joblib.dump(classifier_poly, './model/svm.pkl')
-
-    # restore
-    classifier_poly = joblib.load('./model/svm.pkl')
-
-    # 在训练集上的表现为：
-    # t1 = time.time()
-    plot_classifier(classifier_poly, train_X, train_y)
-    # t2 = time.time()
-    # print('t2-t1: ', t2-t1, 's')
-    target_names = ['Hematite', 'martite']
-    y_pred = classifier_poly.predict(train_X)
-    # print(train_y)
-    # print(y_pred)
-    print(classification_report(train_y, y_pred, target_names=target_names))
-
-    # # 第二种：使用径向基函数建立非线性分类器
-    # classifier_rbf = SVC(kernel='rbf', probability=True)
-    # classifier_rbf.fit(train_X, train_y)
-    # # 在训练集上的表现为：
-    # plot_classifier(classifier_rbf, train_X, train_y)
-    # target_names = ['Hematite', 'martite']
-    # y_pred = classifier_rbf.predict(train_X)
-    # print(classification_report(train_y, y_pred, target_names=target_names))
-
-    # # 使用训练好的SVM分类器classifier3对新样本进行预测，并给出置信度
-    # for sample in new_samples:
-    #     print('sample: {}, probs: {}'.format(sample, classifier3.predict_proba([sample])[0]))
+# def svm(filepath):
+#     data = p.pca(filepath)
+#     x0 = []
+#     y0 = []
+#     x1 = []
+#     y1 = []
+#     x = []
+#     y = []
+#     for key in data.keys():
+#         tmp = data.get(key)
+#         if tmp[2] == "赤铁矿":
+#             x0.append(tmp[0])
+#             y0.append(tmp[1])
+#             x.append([tmp[0], tmp[1]])
+#             y.append(0)
+#         elif tmp[2] == "假象矿":
+#             x1.append(tmp[0])
+#             y1.append(tmp[1])
+#             x.append([tmp[0], tmp[1]])
+#             y.append(1)
+#         else:
+#             pass
+#     scatter0 = plt.scatter(x0, y0, c='b', marker='o')
+#     scatter1 = plt.scatter(x1, y1, c='r', marker='x')
+#     plt.legend(handles=[scatter0, scatter1], labels=["Hematite", "martite"], loc="best")
+#     plt.savefig("./images/img2.png")
+#     plt.show()
+#
+#     # SVM
+#     train_X = np.array(x)
+#     train_y = np.array(y)
+#     # print(model.score(X, Y))
+#
+#     import time
+#     time_start = time.time()
+#     # 第一种：使用多项式核函数：
+#     # classifier_poly = SVC(kernel='poly', degree=3, probability=True)  # 三次多项式方程
+#     classifier_poly = SVC(kernel='poly', degree=3)
+#     classifier_poly.fit(train_X, train_y)
+#     time_end = time.time()
+#     print('SVM: ', time_end - time_start, 's')
+#
+#     # save svm model
+#     from sklearn.externals import joblib
+#     joblib.dump(classifier_poly, './model/svm.pkl')
+#
+#     # restore
+#     classifier_poly = joblib.load('./model/svm.pkl')
+#
+#     # 在训练集上的表现为：
+#     # t1 = time.time()
+#     plot_classifier(classifier_poly, train_X, train_y)
+#     # t2 = time.time()
+#     # print('t2-t1: ', t2-t1, 's')
+#     target_names = ['Hematite', 'martite']
+#     y_pred = classifier_poly.predict(train_X)
+#     # print(train_y)
+#     # print(y_pred)
+#     print(classification_report(train_y, y_pred, target_names=target_names))
+#
+#     # # 第二种：使用径向基函数建立非线性分类器
+#     # classifier_rbf = SVC(kernel='rbf', probability=True)
+#     # classifier_rbf.fit(train_X, train_y)
+#     # # 在训练集上的表现为：
+#     # plot_classifier(classifier_rbf, train_X, train_y)
+#     # target_names = ['Hematite', 'martite']
+#     # y_pred = classifier_rbf.predict(train_X)
+#     # print(classification_report(train_y, y_pred, target_names=target_names))
+#
+#     # # 使用训练好的SVM分类器classifier3对新样本进行预测，并给出置信度
+#     # for sample in new_samples:
+#     #     print('sample: {}, probs: {}'.format(sample, classifier3.predict_proba([sample])[0]))
 
 def svm1(data_path):
     dataset = p.pca1(data_path)
@@ -203,7 +204,7 @@ def svm1(data_path):
     for i in range(0, count):
         scatter.append(plt.scatter(mapx['x'+str(i)], mapy['y'+str(i)], c=colors[i], marker=markers[i]))
     plt.legend(handles=scatter, labels=target_names, loc="best")
-    plt.savefig("./images/img6.png")
+    plt.savefig("./images/PCA+SVM/img2.png")
     plt.show()
 
     # svm: classifier_poly = SVC(kernel='linear', gamma=0.1, decision_function_shape='ovo', C=0.1)
@@ -219,14 +220,14 @@ def svm1(data_path):
     # we don't need to training every time
     classifier_poly = SVC(kernel='rbf', gamma=0.2, decision_function_shape='ovo', C=1.5)
     clf = classifier_poly.fit(train_X, train_y)
-    plot_classifier(clf, train_X, train_y)
+    plot_classifier(clf, train_X, train_y, './images/PCA+SVM/img3.png')
     # save svm model
     from sklearn.externals import joblib
-    joblib.dump(clf, '/Users/skye/PycharmProjects/20190302/model/svmtmp.pkl')
+    joblib.dump(clf, './model/PCA+SVM/svm.pkl')
 
     # restore
     from sklearn.externals import joblib
-    clf = joblib.load('/Users/skye/PycharmProjects/20190302/model/svmtmp.pkl')
+    clf = joblib.load('./model/PCA+SVM/svm.pkl')
 
     print('SVM在训练集上的准确率: ', clf.score(train_X, train_y))
     y_pred = clf.predict(train_X)
@@ -235,7 +236,7 @@ def svm1(data_path):
 
     # plot confusion matrix
     # note: classes must be type of numpy.ndarray
-    plot_confusion_matrix(train_y, y_pred, classes=np.array(target_names), title='Confusion matrix, without normalization')
+    plot_confusion_matrix(train_y, y_pred, classes=np.array(target_names), path='./images/PCA+SVM/img4.png', title='Confusion matrix, without normalization')
     # plot_confusion_matrix(train_y, y_pred, classes=np.array(target_names), normalize=True, title='Normalized confusion matrix')
 
     # note: precision = '2' in y_pred/ '2' in train_y
@@ -245,25 +246,39 @@ def svm1(data_path):
     map = {}
     map['training_report'] = training_report
     map['accuracy'] = clf.score(train_X, train_y)
-    result = np.column_stack((samples, y_pred))
-    map['result'] = result
+    # result = np.column_stack((samples, y_pred))
+    # map['result'] = result
+    # print(map)
     return map
 
-def prediction(data_path):
-    dataset = p.pca1(data_path)
+def prediction(data_path, modelpath, method):
+    if method == 1:
+        dataset = p.pca1(data_path, prediction=True)
+        # print(dataset)
+    elif method == 2:
+        map = lda1(data_path)
+        dataset = map["result"]
+        print(dataset)
+    else:
+        pass
     # print(dataset)
     samples = dataset[:, [0,2,3,4]]
     train_X = dataset[:, 5:]
+    y = dataset[:, 1].astype('int')
+    # print(y)
     # print(train_X)
     # train_y = dataset[:, 1].astype('float').astype('int')
     from sklearn.externals import joblib
-    clf = joblib.load('/Users/skye/PycharmProjects/20190302/model/svm4.pkl')
+    clf = joblib.load(modelpath)
     y_pred = clf.predict(train_X)
-    plot_classifier(clf, train_X, y_pred)
-    print(y_pred)
+    plot_classifier(clf, train_X, y_pred, './images/prediction/img2.png')
+    # print(y_pred)
     result = np.column_stack((samples, y_pred))
-    # print(result)
-    return result
+    map = {}
+    map["result"] = result
+    map["accuracy"] = clf.score(train_X, y)
+    print(map)
+    return map
 
 # svm1('/Users/skye/PycharmProjects/20190302/data/光谱数据.xls')
 # svm1('/Users/skye/PycharmProjects/20190302/data/训练数据集.csv')

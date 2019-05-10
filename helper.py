@@ -108,3 +108,5 @@ global data_path
 data_path = ''
 global rownum
 rownum = 0
+global tensor
+tensor = 0

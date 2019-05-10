@@ -26,83 +26,83 @@ def visual_2D_dataset(dataset_X, dataset_y, title):
     plt.title(title)
     plt.legend()
 
-def pca(filepath):
-    dataset = helper.Helper.ReadPCAdata(filepath)
-    # # print(np.mat(dataset['pcadata'][0]))
-    samples = dataset['samples']
-    waves = ['wavelength' + str(i) for i in range(1, dataset['waves']+1)]
-    data = pd.DataFrame(columns=[*samples], index=waves)
-    # print(data.index)
-    i = 0
-    for wave in data.index:
-        data.loc[wave, 'A-1-2':'E-16-3'] = np.mat(dataset['pcadata'][i])
-        i = i + 1
-    print(data.head())
-    print(data.shape)
+# def pca(filepath):
+#     dataset = helper.Helper.ReadPCAdata(filepath)
+#     # # print(np.mat(dataset['pcadata'][0]))
+#     samples = dataset['samples']
+#     waves = ['wavelength' + str(i) for i in range(1, dataset['waves']+1)]
+#     data = pd.DataFrame(columns=[*samples], index=waves)
+#     # print(data.index)
+#     i = 0
+#     for wave in data.index:
+#         data.loc[wave, 'A-1-2':'E-16-3'] = np.mat(dataset['pcadata'][i])
+#         i = i + 1
+#     print(data.head())
+#     print(data.shape)
+#
+#     # Perform PCA on the data
+#     # First center and scale the data
+#     scaled_data = preprocessing.scale(data.T)
+#
+#     # print(scaled_data)
+#     pca = PCA()  # create a PCA object
+#     pca.fit(scaled_data)  # do the math
+#     pca_data = pca.transform(scaled_data)  # get PCA coordinates for scaled_data
+#
+#     # # Draw a scree plot and a PCA plot
+#     # # The following code constructs the Scree plot
+#     per_var = np.round(pca.explained_variance_ratio_* 100, decimals=1)
+#     # print(per_var)
+#     labels = ['PC' + str(x) for x in range(1, len(per_var)+1)]
+#     plt.bar(x=range(1,len(per_var)+1), height=per_var, tick_label=labels)
+#     plt.ylabel('Percentage of Explained Variance')
+#     plt.xlabel('Principal Component')
+#     plt.title('Scree Plot')
+#     # plt.savefig("./images/img1.png"
+#     plt.show()
+#
+#     # the following code makes a fancy looking plot using PC1 and PC2
+#     pca_df = pd.DataFrame(pca_data, index=[*samples], columns=labels)
+#     # print(pca_df)
+#     plt.scatter(pca_df.PC1, pca_df.PC2)
+#     plt.title('My PCA Graph')
+#     plt.xlabel('PC1 - {0}%'.format(per_var[0]))
+#     plt.ylabel('PC2 - {0}%'.format(per_var[1]))
+#     for sample in pca_df.index:
+#         plt.annotate(sample, (pca_df.PC1.loc[sample], pca_df.PC2.loc[sample]))
+#     plt.savefig("./images/img1.png")
+#     plt.show()
+#
+#     # Determine which genes had the biggest influence on PC1
+#     # get the name of the top 10 measurements (wavelength) that contribute most to pc1.
+#     # first, get the loading scores
+#     loading_scores = pd.Series(pca.components_[0], index=waves)
+#     # now sort the loading scores based on their magnitude
+#     sorted_loading_scores = loading_scores.abs().sort_values(ascending=False)
+#     # get the names of the top 10 genes
+#     top_10_genes = sorted_loading_scores[0:10].index.values
+#     # print the gene names and their scores (and +/- sign)
+#     print(loading_scores[top_10_genes])
+#
+#     dataset = {}
+#     # print(pca_df)
+#     for index, row in pca_df.iterrows():
+#         dataset[str(index)] = [row['PC1'], row['PC2'], '']
+#
+#     import xlrd
+#     filepath1 = '/Users/skye/Desktop/化学成分表格.xls'
+#     data = xlrd.open_workbook(filepath1)
+#     table = data.sheet_by_index(0)
+#     for i in range(1, table.nrows):
+#         list = dataset.get(str(table.row_values(i)[1]))  # note:column index is 1
+#         # print(str(table.row_values(i)[1]))
+#         if list:
+#             list[2] = table.row_values(i)[12]
+#
+#     print(dataset)
+#     return dataset
 
-    # Perform PCA on the data
-    # First center and scale the data
-    scaled_data = preprocessing.scale(data.T)
-
-    # print(scaled_data)
-    pca = PCA()  # create a PCA object
-    pca.fit(scaled_data)  # do the math
-    pca_data = pca.transform(scaled_data)  # get PCA coordinates for scaled_data
-
-    # # Draw a scree plot and a PCA plot
-    # # The following code constructs the Scree plot
-    per_var = np.round(pca.explained_variance_ratio_* 100, decimals=1)
-    # print(per_var)
-    labels = ['PC' + str(x) for x in range(1, len(per_var)+1)]
-    plt.bar(x=range(1,len(per_var)+1), height=per_var, tick_label=labels)
-    plt.ylabel('Percentage of Explained Variance')
-    plt.xlabel('Principal Component')
-    plt.title('Scree Plot')
-    # plt.savefig("./images/img1.png"
-    plt.show()
-
-    # the following code makes a fancy looking plot using PC1 and PC2
-    pca_df = pd.DataFrame(pca_data, index=[*samples], columns=labels)
-    # print(pca_df)
-    plt.scatter(pca_df.PC1, pca_df.PC2)
-    plt.title('My PCA Graph')
-    plt.xlabel('PC1 - {0}%'.format(per_var[0]))
-    plt.ylabel('PC2 - {0}%'.format(per_var[1]))
-    for sample in pca_df.index:
-        plt.annotate(sample, (pca_df.PC1.loc[sample], pca_df.PC2.loc[sample]))
-    plt.savefig("./images/img1.png")
-    plt.show()
-
-    # Determine which genes had the biggest influence on PC1
-    # get the name of the top 10 measurements (wavelength) that contribute most to pc1.
-    # first, get the loading scores
-    loading_scores = pd.Series(pca.components_[0], index=waves)
-    # now sort the loading scores based on their magnitude
-    sorted_loading_scores = loading_scores.abs().sort_values(ascending=False)
-    # get the names of the top 10 genes
-    top_10_genes = sorted_loading_scores[0:10].index.values
-    # print the gene names and their scores (and +/- sign)
-    print(loading_scores[top_10_genes])
-
-    dataset = {}
-    # print(pca_df)
-    for index, row in pca_df.iterrows():
-        dataset[str(index)] = [row['PC1'], row['PC2'], '']
-
-    import xlrd
-    filepath1 = '/Users/skye/Desktop/化学成分表格.xls'
-    data = xlrd.open_workbook(filepath1)
-    table = data.sheet_by_index(0)
-    for i in range(1, table.nrows):
-        list = dataset.get(str(table.row_values(i)[1]))  # note:column index is 1
-        # print(str(table.row_values(i)[1]))
-        if list:
-            list[2] = table.row_values(i)[12]
-
-    print(dataset)
-    return dataset
-
-def pca1(data_path):
+def pca1(data_path, prediction=False):
     import pandas as pd
     df = pd.read_csv(data_path, header=None)
     # print(df)
@@ -141,7 +141,10 @@ def pca1(data_path):
     plt.ylabel('PC2 - {0}%'.format(per_var[1]))
     for sample in pca_df.index:
         plt.annotate(sample, (pca_df.PC1.loc[sample], pca_df.PC2.loc[sample]))
-    plt.savefig("./images/img5.png")
+    if prediction:
+        plt.savefig("./images/prediction/img1.png")
+    else:
+        plt.savefig("./images/PCA+SVM/img1.png")
     plt.show()
 
     # # Determine which genes had the biggest influence on PC1

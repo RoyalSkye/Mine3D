@@ -31,6 +31,8 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         else:
             self.MailgroupBox.setChecked(False)
             self.MailgroupBox.toggled.connect(self.setuncheckable)
+            self.groupBox_14.setChecked(False)
+            self.groupBox_14.toggled.connect(self.setuncheckable)
 
         # self.initTableWidget()
         # self.initfont()
@@ -52,7 +54,6 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         self.animation1.setStartValue(0)
         self.animation1.setEndValue(1)
         self.animation1.start()
-        self.showimg()
 
         # import Visualization.MyGL as mg
         # self.objFile = self.openGLWidget = mg.OpenGLWidget(self.centralwidget)
@@ -369,11 +370,29 @@ class MainWindow(QMainWindow, Ui_QUICreator):
 
     @pyqtSlot()
     def on_button2_2_clicked(self):
+        if self.filepath2_3.text():
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">预测与测试只能选择一个，请删除另一个路径！', QMessageBox.No | QMessageBox.Yes, QMessageBox.Yes)
+            if reply == QMessageBox.Yes:
+                self.filepath2_3.clear()
+            return
         rootpath = '/'
         filename, filetype = QtWidgets.QFileDialog.getOpenFileName(self, "选择光谱数据文件", rootpath, "(*.csv)")
         if len(filename) == 0:
             return
         self.filepath2_2.setText(filename)
+
+    @pyqtSlot()
+    def on_button2_3_clicked(self):
+        if self.filepath2_2.text():
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">预测与测试只能选择一个，请删除另一个路径！', QMessageBox.No | QMessageBox.Yes, QMessageBox.Yes)
+            if reply == QMessageBox.Yes:
+                self.filepath2_2.clear()
+            return
+        rootpath = '/'
+        filename, filetype = QtWidgets.QFileDialog.getOpenFileName(self, "选择光谱数据文件", rootpath, "(*.csv)")
+        if len(filename) == 0:
+            return
+        self.filepath2_3.setText(filename)
 
     @pyqtSlot()
     def on_virtualization_clicked(self):
@@ -385,34 +404,85 @@ class MainWindow(QMainWindow, Ui_QUICreator):
 
     @pyqtSlot()
     def on_prediction_clicked(self):
-        path = self.filepath2_2.text()
+        self.precision.clear()
+        path1 = self.filepath2_2.text()
+        path2 = self.filepath2_3.text()
+        if path1:
+            path = path1
+            flag = 1
+        else:
+            path = path2
+            flag = 2
         if path:
             try:
                 from ml_data import SVM
-                result = SVM.prediction(path)
+                map = SVM.prediction(path, './model/PCA+SVM/svm.pkl', 1)
             except:
                 print("prediction catch exception")
-                reply = QMessageBox.warning(self, 'Message', '<font color="black">预测数据错误，请检查数据！', QMessageBox.Ok, QMessageBox.Ok)
+                reply = QMessageBox.warning(self, 'Message', '<font color="black">未训练该类模型或预测数据错误！', QMessageBox.Ok, QMessageBox.Ok)
             else:
-                # img5-9 && img7-10
+                result = map["result"]
                 import shutil
-                shutil.copy("./images/img5.png", "./images/img9.png")
-                shutil.copy("./images/img7.png", "./images/img10.png")
                 shutil.copy(path, "./data/ml_dataset/预测数据集.csv")
-                img9 = QImage("./images/img9.png")
+                img9 = QImage("./images/prediction/img1.png")
                 size = QSize(320, 240)
                 pixmap = QPixmap.fromImage(img9.scaled(size, Qt.IgnoreAspectRatio))
                 self.pre_pic_1.resize(320, 240)
                 self.pre_pic_1.setPixmap(pixmap)
-                img10 = QImage("./images/img10.png")
+                img10 = QImage("./images/prediction/img2.png")
                 size = QSize(320, 240)
                 pixmap = QPixmap.fromImage(img10.scaled(size, Qt.IgnoreAspectRatio))
                 self.pre_pic_2.resize(320, 240)
                 self.pre_pic_2.setPixmap(pixmap)
                 self.initprediction_table(result)
                 helper.predict_result = result
+                if flag == 2:  # 测试，显示测试集准确率
+                    text = "模型在测试集上的准确率为: " + str(map["accuracy"])
+                    self.precision.setText(text)
         else:
             reply = QMessageBox.warning(self, 'Message', '<font color="black">文件路径错误！', QMessageBox.Ok, QMessageBox.Ok)
+
+    @pyqtSlot()
+    def on_prediction1_clicked(self):
+        self.precision.clear()
+        path1 = self.filepath2_2.text()
+        path2 = self.filepath2_3.text()
+        if path1:
+            path = path1
+            flag = 1
+        else:
+            path = path2
+            flag = 2
+        if path:
+            try:
+                from ml_data import SVM
+                map = SVM.prediction(path, './model/LDA+SVM/svm.pkl', 2)
+            except:
+                print("prediction catch exception")
+                reply = QMessageBox.warning(self, 'Message', '<font color="black">未训练该类模型或预测数据错误！', QMessageBox.Ok,
+                                            QMessageBox.Ok)
+            else:
+                result = map["result"]
+                import shutil
+                shutil.copy(path, "./data/ml_dataset/预测数据集.csv")
+                img9 = QImage("./images/prediction/img1.png")
+                size = QSize(320, 240)
+                pixmap = QPixmap.fromImage(img9.scaled(size, Qt.IgnoreAspectRatio))
+                self.pre_pic_1.resize(320, 240)
+                self.pre_pic_1.setPixmap(pixmap)
+                img10 = QImage("./images/prediction/img2.png")
+                size = QSize(320, 240)
+                pixmap = QPixmap.fromImage(img10.scaled(size, Qt.IgnoreAspectRatio))
+                self.pre_pic_2.resize(320, 240)
+                self.pre_pic_2.setPixmap(pixmap)
+                self.initprediction_table(result)
+                helper.predict_result = result
+                if flag == 2:  # 测试，显示测试集准确率
+                    text = "模型在测试集上的准确率为: " + str(map["accuracy"])
+                    self.precision.setText(text)
+        else:
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">文件路径错误！', QMessageBox.Ok, QMessageBox.Ok)
+
 
     @pyqtSlot()
     def on_training_clicked(self):
@@ -436,23 +506,41 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 if helper.threadpool:
                     reply = QMessageBox.warning(self, 'Message', '<font color="black">正在导入并训练数据中，请勿重复操作！', QMessageBox.Ok, QMessageBox.Ok)
                 else:
-                    t1 = threading.Thread(target=self.trainingdata, args=(newfilename,))
+                    t1 = threading.Thread(target=self.trainingdata, args=(newfilename, 1))
                     t1.setDaemon(True)
                     t1.start()
                     helper.threadpool.append(t1.getName())
                     self.importStatus.setText("please wait for training ...")
 
-            # data = xlrd.open_workbook(filename)
-            # print(data.sheet_names())
-            # names = data.sheet_names()
-            # for name in names:
-            #     table = data.sheet_by_name(name)
-            #     # print(table.nrows)
-            #     for i in range(1, table.nrows):
-            #         # print(table.row_values(i))
-            #         database.insertminedata(table.row_values(i))
-            # self.importStatus.setText("import successfully!")
-            # self.initTableWidget()
+    @pyqtSlot()
+    def on_training1_clicked(self):
+        filename = self.path.text()
+        newfilename = './data/ml_dataset/training_tmp_dataset.csv'
+        if filename == '' or not helper.Helper.validatepath(filename):
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">请选择正确的文件路径！', QMessageBox.Ok,
+                                        QMessageBox.Ok)
+            return
+        else:
+            import shutil
+            try:
+                shutil.copy(filename, newfilename)
+            except:
+                print("catch Exception")
+                reply = QMessageBox.warning(self, 'Message', '<font color="black">文件复制出现异常！', QMessageBox.Ok,
+                                            QMessageBox.Ok)
+                return
+            else:
+                # if import data successfully: 不阻塞主线程,否则需要等待lda+svm
+                import threading
+                if helper.threadpool:
+                    reply = QMessageBox.warning(self, 'Message', '<font color="black">正在导入并训练数据中，请勿重复操作！',
+                                                QMessageBox.Ok, QMessageBox.Ok)
+                else:
+                    t1 = threading.Thread(target=self.trainingdata, args=(newfilename, 2))
+                    t1.setDaemon(True)
+                    t1.start()
+                    helper.threadpool.append(t1.getName())
+                    self.importStatus.setText("please wait for training ...")
 
     @pyqtSlot()
     def on_clearflie_clicked(self):
@@ -790,6 +878,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
 
     def setuncheckable(self):
         self.MailgroupBox.setChecked(False)
+        self.groupBox_14.setChecked(False)
 
     def content1helper(self):
         arguments = []
@@ -960,11 +1049,16 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 FirstmainWindow.setStyleSheet(Style)
                 FirstmainWindow.show()
 
-    def trainingdata(self, filepath):
-        from ml_data import SVM
+    def trainingdata(self, filepath, model):
+        from ml_data import SVM, LDA
         # map = SVM.svm1('/Users/skye/PycharmProjects/20190302/data/光谱数据.csv')
         try:
-            map = SVM.svm1(filepath)
+            if model == 1:
+                map = SVM.svm1(filepath)
+            elif model == 2:
+                map = LDA.lda1(filepath)
+            elif model == 3:
+                pass
         except:
             self.importStatus.setText("Error: SVM数据处理错误，请检查文件数据格式！")
             print("catch exception: SVM数据处理错误")
@@ -973,36 +1067,35 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             raise e
         else:
             import shutil
-            shutil.copy("./images/img5.png", "./images/img1.png")
-            shutil.copy("./images/img6.png", "./images/img2.png")
-            shutil.copy("./images/img7.png", "./images/img3.png")
-            shutil.copy("./images/img8.png", "./images/img4.png")
-            shutil.copy("./model/svmtmp.pkl", "./model/svm4.pkl")
             shutil.copy("./data/ml_dataset/training_tmp_dataset.csv", "./data/ml_dataset/训练数据集.csv")
-            self.showimg()
+            if model == 1:
+                self.showimg('PCA+SVM')
+            elif model == 2:
+                self.showimg('LDA+SVM')
+            elif model == 3:
+                self.showimg('LDA+ANN')
             helper.threadpool = []
-            text = 'SVM model 准确率为: ' + str(map['accuracy']) + '\n\n'
+            text = 'SVM model 在训练集上的准确率为: ' + str(map['accuracy']) + '\n\n'
             text = text + map['training_report']
+            self.training_report.clear()
             self.training_report.appendPlainText(text)
             self.importStatus.setText("training completed!")
-            print(map['result'])
-            # pass map['result'] to 3d virtualization with try except
 
-    def showimg(self):
-        img1 = QImage("./images/img1.png")
+    def showimg(self, method):
+        img1 = QImage("./images/"+str(method)+"/img1.png")
         size = QSize(320, 240)
         pixmap = QPixmap.fromImage(img1.scaled(size, Qt.IgnoreAspectRatio))
         self.data_pic_1.resize(320, 240)
         self.data_pic_1.setPixmap(pixmap)
-        img2 = QImage("./images/img2.png")
+        img2 = QImage("./images/"+method+"/img2.png")
         pixmap = QPixmap.fromImage(img2.scaled(size, Qt.IgnoreAspectRatio))
         self.data_pic_2.resize(320, 240)
         self.data_pic_2.setPixmap(pixmap)
-        img3 = QImage("./images/img3.png")
+        img3 = QImage("./images/"+method+"/img3.png")
         pixmap = QPixmap.fromImage(img3.scaled(size, Qt.IgnoreAspectRatio))
         self.data_pic_3.resize(320, 240)
         self.data_pic_3.setPixmap(pixmap)
-        img4 = QImage("./images/img4.png")
+        img4 = QImage("./images/"+method+"/img4.png")
         pixmap = QPixmap.fromImage(img4.scaled(size, Qt.IgnoreAspectRatio))
         self.data_pic_4.resize(320, 240)
         self.data_pic_4.setPixmap(pixmap)
