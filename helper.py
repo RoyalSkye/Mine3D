@@ -98,6 +98,58 @@ class Helper:
         dataset = {'waves': len(pcadata), 'samples': samples, 'pcadata': pcadata}
         return dataset
 
+    @staticmethod
+    def update_user(mainself, id):
+        import database
+        from PyQt5.QtWidgets import QMessageBox
+        try:
+            user = database.getUserByid(id)
+            if user[0][4] == 'admin':
+                reply = QMessageBox.critical(mainself, 'Message', '<font color="black">无权限修改管理员资料！', QMessageBox.Ok,
+                                             QMessageBox.Ok)
+                mainself.inituser_manage_table()
+                return
+            else:
+                row = mainself.user_manage.rowCount()
+                userinfo = []
+                for r in range(row):
+                    if mainself.user_manage.item(r, 0).text() == str(id):
+                        for i in range(1, 6):
+                            userinfo.append(mainself.user_manage.item(r, i).text())
+                        print(userinfo)
+                        break
+                res = database.updateUser(userinfo, id)
+        except:
+            reply = QMessageBox.critical(mainself, 'Message', '<font color="black">数据更新失败！', QMessageBox.Ok,
+                                        QMessageBox.Ok)
+            print("update user catch exception")
+        else:
+            reply = QMessageBox.information(mainself, 'Message', '<font color="black">数据修改成功！', QMessageBox.Ok,
+                                            QMessageBox.Ok)
+        finally:
+            mainself.inituser_manage_table()
+
+    @staticmethod
+    def delete_user(mainself, id):
+        import database
+        from PyQt5.QtWidgets import QMessageBox
+        try:
+            user = database.getUserByid(id)
+            # print(user[0][4])
+            if user[0][4] == 'admin':
+                reply = QMessageBox.critical(mainself, 'Message', '<font color="black">无权限删除管理员！', QMessageBox.Ok,
+                                             QMessageBox.Ok)
+                mainself.inituser_manage_table()
+                return
+            else:
+                res = database.deleteuser(id)
+        except:
+            reply = QMessageBox.critical(mainself, 'Message', '<font color="black">数据删除失败！', QMessageBox.Ok,
+                                        QMessageBox.Ok)
+            print("delete user catch exception")
+        finally:
+            mainself.inituser_manage_table()
+
 global modelversion
 modelversion = "light"
 global threadpool

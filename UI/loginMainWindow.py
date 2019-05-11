@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from UI.login import Ui_MainWindow
 from UI.mainwindow import MainWindow
+from UI.signupMainWindow import signupMainWindow
 
 class loginMainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -19,8 +20,8 @@ class loginMainWindow(QMainWindow, Ui_MainWindow):
 
     @pyqtSlot()
     def on_login_clicked(self):
-        self.login_username.setText("skye")
-        self.login_pwd.setText("123456")
+        # self.login_username.setText("skye")
+        # self.login_pwd.setText("123456")
         if self.login_username.text() and self.login_pwd.text():
             userinfo = database.getUserByusername(self.login_username.text(), self.login_pwd.text())
             print(userinfo)
@@ -67,6 +68,32 @@ class loginMainWindow(QMainWindow, Ui_MainWindow):
             reply = QMessageBox.warning(self, 'Message', '<font color="black">用户名或密码不能为空！', QMessageBox.Ok)
             if reply == QMessageBox.Ok:
                 pass
+
+    @pyqtSlot()
+    def on_signup_clicked(self):
+        # 跳转至注册界面
+        self.windowList = []
+        ThirdmainWindow = signupMainWindow()
+        self.windowList.append(ThirdmainWindow)
+        self.close()
+
+        import helper
+        if helper.modelversion == "light":
+            palette = QtGui.QPalette()
+            palette.setColor(ThirdmainWindow.backgroundRole(), QtGui.QColor(255, 255, 255))
+            ThirdmainWindow.setPalette(palette)
+            ThirdmainWindow.setFont(QtGui.QFont("Times New Roman", 12))
+            ThirdmainWindow.setWindowTitle("Mine Information Management Platform")
+            ThirdmainWindow.show()
+        else:
+            palette = QtGui.QPalette()
+            palette.setColor(ThirdmainWindow.backgroundRole(), QtGui.QColor(68, 68, 68))
+            ThirdmainWindow.setPalette(palette)
+            ThirdmainWindow.setWindowTitle("Mine Information Management Platform")
+            styleFile = './UI/resource/qss/psblack.css'
+            Style = helper.Helper.readQss(styleFile)
+            ThirdmainWindow.setStyleSheet(Style)
+            ThirdmainWindow.show()
 
     @pyqtSlot()
     def on_exit_clicked(self):

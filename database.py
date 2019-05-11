@@ -130,3 +130,71 @@ def updateUserpwd(u):
     finally:
         cur.close()
         db.close()
+
+def getAlluser1():  # for user_manage
+    db, cur = gerConnection()
+    try:
+        cur.execute("select id, username, password, email, identity, region from user")  # 防止SQL注入
+        results = cur.fetchall()
+        return results
+    except Exception as e:
+        raise e
+    finally:
+        cur.close()
+        db.close()
+
+def getUserByid(id):
+    db, cur = gerConnection()
+    try:
+        cur.execute("select * from user where id = %s", (id))
+        results = cur.fetchall()
+        return results
+    except Exception as e:
+        raise e
+    finally:
+        cur.close()
+        db.close()
+
+def deleteuser(id):
+    db, cur = gerConnection()
+    try:
+        sql = 'delete from user where id = %s' % (id)
+        print(sql)
+        res = cur.execute(sql)
+        db.commit()
+        return res
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        cur.close()
+        db.close()
+
+def updateUser(userinfo, id):
+    db, cur = gerConnection()
+    try:
+        sql = "update user set username = '%s', password = '%s', email = '%s', identity = '%s', region = '%s' where id = %s" % (userinfo[0], userinfo[1], userinfo[2], userinfo[3], userinfo[4], id)
+        print(sql)
+        res = cur.execute(sql)
+        db.commit()
+        return res
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        cur.close()
+        db.close()
+
+def insertuser(userinfo):
+    db, cur = gerConnection()
+    try:
+        sql = "insert into user(username, password) values('"+str(userinfo[0])+"', '"+str(userinfo[1])+"')"
+        print(sql)
+        cur.execute(sql)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        raise e
+    finally:
+        cur.close()
+        db.close()

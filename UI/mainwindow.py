@@ -27,7 +27,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
 
         # 判断用户权限，如果为普通用户，则将groupbox设置为不可选状态
         if(user.user.identify == "admin"):
-            pass
+            self.inituser_manage_table()
         else:
             self.MailgroupBox.setChecked(False)
             self.MailgroupBox.toggled.connect(self.setuncheckable)
@@ -66,6 +66,55 @@ class MainWindow(QMainWindow, Ui_QUICreator):
     #     self.label.setFont(font)
     #     # self.label_4.setFont(font)
     #     self.training.setFont(font)
+
+    def inituser_manage_table(self):
+        import database
+        dataset = database.getAlluser1()
+        # print(dataset)
+        rowNum = 0
+        for info in dataset:
+            rowNum = rowNum + 1
+        colNum = 8
+        self.user_manage.setRowCount(rowNum)
+        self.user_manage.setColumnCount(colNum)
+        attributes = ['id', 'username', 'password', 'email', 'identity', 'region', 'update', 'delete']
+        self.user_manage.setHorizontalHeaderLabels(attributes)
+        self.user_manage.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        # self.user_manage.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        for i in range(0, rowNum):
+            for j in range(0, colNum):
+                if j == 6:
+                    btn = self.GenerateupdateBtn(int(dataset[i][0]))
+                    self.user_manage.setCellWidget(i, j, btn)
+                    # self.user_manage.setCellWidget(i, j, self.GenerateBtn(str(i)))
+                    continue
+                if j == 7:
+                    btn = self.GeneratedeleteBtn(int(dataset[i][0]))
+                    self.user_manage.setCellWidget(i, j, btn)
+                    continue
+                item = QtWidgets.QTableWidgetItem(str(dataset[i][j]))
+                item.setTextAlignment(Qt.AlignCenter)
+                if j == 0:
+                    item.setFlags(~item.flags())
+                self.user_manage.setItem(i, j, item)
+
+    def GenerateupdateBtn(self, id):
+        userinfo = []
+        updateBtn = QtWidgets.QPushButton('update')
+        updateBtn.setStyleSheet('''text-align : center; background-color : DarkSeaGreen; color:white;''')
+        updateBtn.clicked.connect(lambda: helper.Helper.update_user(self, id))
+        # viewBtn.clicked.connect(lambda: self.user_manage(clientid))  # issue: TypeError: 'QTableWidget' object is not callable
+        return updateBtn
+
+    def GeneratedeleteBtn(self, id):
+        deleteBtn = QtWidgets.QPushButton('delete')
+        deleteBtn.setStyleSheet('''text-align : center; background-color : red; color:white;''')
+        deleteBtn.clicked.connect(lambda: helper.Helper.delete_user(self, id))
+        return deleteBtn
+
+    # def user_manage(self, userinfo):
+    #     print("test")
+    #     print(userinfo)
 
     def initcover(self):
         self.doc_heading.setText('露天采场矿岩与品位信息报告')
@@ -135,40 +184,6 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 item = QtWidgets.QTableWidgetItem(str(dataset[i][j]))
                 item.setTextAlignment(Qt.AlignCenter)
                 self.tableWidget.setItem(i, j, item)
-
-        # minedata = database.getminedata()
-        # if minedata:
-        #     self.tableWidget.setRowCount(len(minedata))
-        #     self.tableWidget.setColumnCount(len(minedata[0]))
-        #     self.tableWidget.setHorizontalHeaderLabels(['id', 'data1', 'data2', 'data3', 'data4'])
-        #     self.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
-        #     self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        #
-        #     for i in range(0, len(minedata)):
-        #         for j in range(0, len(minedata[i])):
-        #             item = QtWidgets.QTableWidgetItem(str(minedata[i][j]))
-        #             item.setTextAlignment(Qt.AlignCenter)
-        #             self.tableWidget.setItem(i, j, item)
-        #             # self.tableWidget.setItem(i, j, QtWidgets.QTableWidgetItem(str(minedata[i][j])))
-
-            # problem 1: id = QtWidgets.QTableWidgetItem(entry[0])
-            # if QtWidgets.QTableWidgetItem(id) the data will not shown on the table
-            # i = 0
-            # for entry in minedata:
-            #     id = entry[0]
-            #     #
-            #     data1 = QtWidgets.QTableWidgetItem(entry[1])
-            #     data2 = QtWidgets.QTableWidgetItem(entry[2])
-            #     data3 = QtWidgets.QTableWidgetItem(entry[3])
-            #     data4 = QtWidgets.QTableWidgetItem(entry[4])
-            #     self.tableWidget.setItem(i, 0, QtWidgets.QTableWidgetItem(str(id)))
-            #     self.tableWidget.setItem(i, 1, data1)
-            #     self.tableWidget.setItem(i, 2, data2)
-            #     self.tableWidget.setItem(i, 3, data3)
-            #     self.tableWidget.setItem(i, 4, data4)
-            #     i = i + 1
-        # else:
-        #     print("data is null!")
 
     def initTable_dataset(self):
         from PyQt5.QtWidgets import QFileSystemModel
@@ -423,7 +438,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             else:
                 result = map["result"]
                 import shutil
-                shutil.copy(path, "./data/ml_dataset/预测数据集.csv")
+                shutil.copy(path, "./data/ml_dataset/" + "PCA+SVM_" + "预测数据集.csv")
                 img9 = QImage("./images/prediction/img1.png")
                 size = QSize(320, 240)
                 pixmap = QPixmap.fromImage(img9.scaled(size, Qt.IgnoreAspectRatio))
@@ -464,7 +479,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             else:
                 result = map["result"]
                 import shutil
-                shutil.copy(path, "./data/ml_dataset/预测数据集.csv")
+                shutil.copy(path, "./data/ml_dataset/" + "LDA+SVM_" + "预测数据集.csv")
                 img9 = QImage("./images/prediction/img1.png")
                 size = QSize(320, 240)
                 pixmap = QPixmap.fromImage(img9.scaled(size, Qt.IgnoreAspectRatio))
@@ -483,6 +498,46 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         else:
             reply = QMessageBox.warning(self, 'Message', '<font color="black">文件路径错误！', QMessageBox.Ok, QMessageBox.Ok)
 
+    @pyqtSlot()
+    def on_prediction2_clicked(self):
+        self.precision.clear()
+        path1 = self.filepath2_2.text()
+        path2 = self.filepath2_3.text()
+        if path1:
+            path = path1
+            flag = 1
+        else:
+            path = path2
+            flag = 2
+        if path:
+            try:
+                from ml_data import tensorflow1
+                map = tensorflow1.tensorflow_predict(path)
+            except:
+                print("prediction catch exception")
+                reply = QMessageBox.warning(self, 'Message', '<font color="black">未训练该类模型或预测数据错误！', QMessageBox.Ok,
+                                            QMessageBox.Ok)
+            else:
+                result = map["result"]
+                import shutil
+                shutil.copy(path, "./data/ml_dataset/" + "LDA+ANN_" + "预测数据集.csv")
+                img9 = QImage("./images/prediction/img1.png")
+                size = QSize(320, 240)
+                pixmap = QPixmap.fromImage(img9.scaled(size, Qt.IgnoreAspectRatio))
+                self.pre_pic_1.resize(320, 240)
+                self.pre_pic_1.setPixmap(pixmap)
+                img10 = QImage("./images/prediction/img2.png")
+                size = QSize(320, 240)
+                pixmap = QPixmap.fromImage(img10.scaled(size, Qt.IgnoreAspectRatio))
+                self.pre_pic_2.resize(320, 240)
+                self.pre_pic_2.setPixmap(pixmap)
+                self.initprediction_table(result)
+                helper.predict_result = result
+                if flag == 2:  # 测试，显示测试集准确率
+                    text = "模型在测试集上的准确率为: " + str(map["accuracy"])
+                    self.precision.setText(text)
+        else:
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">文件路径错误！', QMessageBox.Ok, QMessageBox.Ok)
 
     @pyqtSlot()
     def on_training_clicked(self):
@@ -537,6 +592,36 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                                                 QMessageBox.Ok, QMessageBox.Ok)
                 else:
                     t1 = threading.Thread(target=self.trainingdata, args=(newfilename, 2))
+                    t1.setDaemon(True)
+                    t1.start()
+                    helper.threadpool.append(t1.getName())
+                    self.importStatus.setText("please wait for training ...")
+
+    @pyqtSlot()
+    def on_training2_clicked(self):
+        filename = self.path.text()
+        newfilename = './data/ml_dataset/training_tmp_dataset.csv'
+        if filename == '' or not helper.Helper.validatepath(filename):
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">请选择正确的文件路径！', QMessageBox.Ok,
+                                        QMessageBox.Ok)
+            return
+        else:
+            import shutil
+            try:
+                shutil.copy(filename, newfilename)
+            except:
+                print("catch Exception")
+                reply = QMessageBox.warning(self, 'Message', '<font color="black">文件复制出现异常！', QMessageBox.Ok,
+                                            QMessageBox.Ok)
+                return
+            else:
+                # if import data successfully: 不阻塞主线程,否则需要等待lda+svm
+                import threading
+                if helper.threadpool:
+                    reply = QMessageBox.warning(self, 'Message', '<font color="black">正在导入并训练数据中，请勿重复操作！',
+                                                QMessageBox.Ok, QMessageBox.Ok)
+                else:
+                    t1 = threading.Thread(target=self.trainingdata, args=(newfilename, 3))
                     t1.setDaemon(True)
                     t1.start()
                     helper.threadpool.append(t1.getName())
@@ -1050,7 +1135,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 FirstmainWindow.show()
 
     def trainingdata(self, filepath, model):
-        from ml_data import SVM, LDA
+        from ml_data import SVM, LDA, tensorflow1
         # map = SVM.svm1('/Users/skye/PycharmProjects/20190302/data/光谱数据.csv')
         try:
             if model == 1:
@@ -1058,7 +1143,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             elif model == 2:
                 map = LDA.lda1(filepath)
             elif model == 3:
-                pass
+                map = tensorflow1.tensorflow_ann(filepath)
         except:
             self.importStatus.setText("Error: SVM数据处理错误，请检查文件数据格式！")
             print("catch exception: SVM数据处理错误")
@@ -1067,15 +1152,20 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             raise e
         else:
             import shutil
-            shutil.copy("./data/ml_dataset/training_tmp_dataset.csv", "./data/ml_dataset/训练数据集.csv")
             if model == 1:
                 self.showimg('PCA+SVM')
+                shutil.copy("./data/ml_dataset/training_tmp_dataset.csv", "./data/ml_dataset/"+"PCA+SVM_"+"训练数据集.csv")
             elif model == 2:
                 self.showimg('LDA+SVM')
+                shutil.copy("./data/ml_dataset/training_tmp_dataset.csv", "./data/ml_dataset/"+"LDA+SVM_"+"训练数据集.csv")
             elif model == 3:
                 self.showimg('LDA+ANN')
+                shutil.copy("./data/ml_dataset/training_tmp_dataset.csv", "./data/ml_dataset/"+"LDA+ANN_"+"训练数据集.csv")
             helper.threadpool = []
-            text = 'SVM model 在训练集上的准确率为: ' + str(map['accuracy']) + '\n\n'
+            if model == 3:
+                text = 'ANN_tensorflow model 在训练集上的准确率为: ' + str(map['accuracy']) + '\n'
+            else:
+                text = 'SVM model 在训练集上的准确率为: ' + str(map['accuracy']) + '\n'
             text = text + map['training_report']
             self.training_report.clear()
             self.training_report.appendPlainText(text)

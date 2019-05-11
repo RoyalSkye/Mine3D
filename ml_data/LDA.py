@@ -85,7 +85,7 @@ def lda1(data_path):
     return map
 
 # LDA+ANN
-def lda2(data_path):
+def lda2(data_path, prediction=False):
     import pandas as pd
     df = pd.read_csv(data_path, header=None)
     # print(df)
@@ -131,7 +131,10 @@ def lda2(data_path):
     plt.ylabel('Dimension2')
     plt.title("LDA")
     plt.legend()
-    # plt.savefig("./images/LDA+ANN/img1.png")
+    if prediction:
+        plt.savefig("./images/prediction/img1.png")
+    else:
+        plt.savefig("./images/LDA+ANN/img1.png")
     plt.show()
     dataset = np.column_stack((tmp, X_r[:, [0, 1]]))
     return dataset
