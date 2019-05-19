@@ -292,6 +292,10 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 self.prediction_table.setItem(i, j, item)
 
     def initdoc_2_table(self, file_path):
+        if file_path == '':
+            # pass error
+            self.doc_2_table.clear()
+            return
         import pandas as pd
         df = pd.read_csv(file_path, header=None)
         # print(df)
@@ -665,10 +669,18 @@ class MainWindow(QMainWindow, Ui_QUICreator):
         # print(self.attachList)
         if to and head:
             # pass
-            msg = sendmail(to, head, self.attachList, context)
-            self.maillabel.setText('发送状态: '+msg)
+            try:
+                msg = sendmail(to, head, self.attachList, context)
+            except:
+                print("sendemail catch exception")
+            finally:
+                reply = QMessageBox.information(self, 'Message', '<font color="black">' + str(msg), QMessageBox.Ok,
+                                             QMessageBox.Ok)
+                self.maillabel.setText('发送状态: '+msg)
         else:
             self.maillabel.setText('发送状态: 收件人或标题为空！')
+            reply = QMessageBox.critical(self, 'Message', '<font color="black">发送失败，收件人或标题为空！', QMessageBox.Ok,
+                                         QMessageBox.Ok)
 
     @pyqtSlot()
     def on_accountsource_clicked(self):
@@ -843,7 +855,8 @@ class MainWindow(QMainWindow, Ui_QUICreator):
     def on_doc_clear_clicked(self):
         self.initcover()
         self.initdoc_1_tableview()
-        # self.initdoc_2_table()
+        self.initdoc_2_table('')
+        self.initDoc_2_file()
         self.doc_3_picpath1 = ""
         self.doc_3_picpath2 = ""
         self.doc_path.clear()

@@ -6,8 +6,12 @@ import re
 import user
 
 def sendmail(to, head, attachList, context):
+    print(to)
+    print(head)
+    print(attachList)
+    print(context)
     smtp_server = user.user.smtpserver  # 'smtp.qq.com'
-    pwd = user.user.emailpwd  # 'rkfazvbncpsebfbi'
+    pwd = user.user.emailpwd  # 'ojbjclfbjiqlbebh'
     port = user.user.port  # 465
     sender = user.user.email  # 'a19970417b@qq.com'
     # receivers = ['royal_skye@outlook.com']
