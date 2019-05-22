@@ -128,8 +128,10 @@ def pca1(data_path, prediction=False):
     pca.fit(scaled_data)
     pca_data = pca.transform(scaled_data)
     per_var = np.round(pca.explained_variance_ratio_ * 100, decimals=1)
+    print(per_var)
     labels = ['PC' + str(x) for x in range(1, len(per_var) + 1)]
     plt.bar(x=range(1, len(per_var) + 1), height=per_var, tick_label=labels)
+    # plt.bar(x=range(1, 11), height=per_var[:10], tick_label=labels[:10])
     plt.ylabel('Percentage of Explained Variance')
     plt.xlabel('Principal Component')
     plt.title('Scree Plot')

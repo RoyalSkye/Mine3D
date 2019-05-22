@@ -3,9 +3,10 @@ import numpy as np
 from sklearn import svm
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV
 
 # LDA+SVM
-def lda1(data_path):
+def lda1(data_path, prediction=False):
     import pandas as pd
     df = pd.read_csv(data_path, header=None)
     # print(df)
@@ -39,8 +40,8 @@ def lda1(data_path):
         target_names = []
         for i in category:
             target_names.append('type' + str(i))
-    colors = ['r', 'g', 'b', 'k', 'm', 'w', 'c', 'y']
-    markers = ['x', '*', 'o', 'v', '^', '<', '>', '1', '2', '3', '4', '8'
+    colors = ['b', 'r', 'g', 'k', 'm', 'w', 'c', 'y']
+    markers = ['o', 'x', 'v', '*', '^', '<', '>', '1', '2', '3', '4', '8'
         , 's', 'p', ',', 'h', 'H', '+', '.', 'D', 'd', '|']
     lda = LDA(n_components=2)
     X_r =lda.fit(X,y).transform(X)
@@ -51,38 +52,53 @@ def lda1(data_path):
     plt.ylabel('Dimension2')
     plt.title("LDA")
     plt.legend()
-    plt.savefig("./images/LDA+SVM/img1.png")
+    if prediction:
+        plt.savefig("./images/prediction/img1.png")
+    else:
+        plt.savefig("./images/LDA+SVM/img1.png")
     plt.show()
 
-    classifier_poly = svm.SVC(kernel='rbf', gamma=0.2, decision_function_shape='ovo', C=1.5)
-    clf = classifier_poly.fit(X_r, y)
-    from ml_data.SVM import plot_classifier
-    plot_classifier(clf, X_r, y, './images/LDA+SVM/img2.png')
-    # save svm model
-    from sklearn.externals import joblib
-    joblib.dump(clf, './model/LDA+SVM/svm.pkl')
-    # restore
-    from sklearn.externals import joblib
-    clf = joblib.load('./model/LDA+SVM/svm.pkl')
+    if not prediction:
+        # grid search
+        param_grid = {"gamma": [0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5],
+                      "C": [0.2, 0.5, 0.7, 1.0, 1.2, 1.5]}
+        print("Parameters:{}".format(param_grid))
+        grid_search = GridSearchCV(svm.SVC(), param_grid, cv=3)  # 实例化一个GridSearchCV类
+        clf = grid_search.fit(X_r, y)  # 训练，找到最优的参数，同时使用最优的参数实例化一个新的SVC estimator。
+        print(grid_search.best_params_)
+        print(grid_search.best_score_)
+        # classifier_poly = svm.SVC(kernel='rbf', gamma=0.2, decision_function_shape='ovo', C=1.5)
+        # clf = classifier_poly.fit(X_r, y)
+        from ml_data.SVM import plot_classifier
+        plot_classifier(clf, X_r, y, './images/LDA+SVM/img2.png')
+        # save svm model
+        from sklearn.externals import joblib
+        joblib.dump(clf, './model/LDA+SVM/svm.pkl')
+        # restore
+        from sklearn.externals import joblib
+        clf = joblib.load('./model/LDA+SVM/svm.pkl')
 
-    print('SVM在训练集上的准确率: ', clf.score(X_r, y))
-    y_pred = clf.predict(X_r)
-    print(y)
-    print(y_pred)
+        print('SVM在训练集上的准确率: ', clf.score(X_r, y))
+        y_pred = clf.predict(X_r)
+        print(y)
+        print(y_pred)
 
-    from ml_data.SVM import plot_confusion_matrix
-    plot_confusion_matrix(y, y_pred, classes=np.array(target_names), path='./images/LDA+SVM/img3.png',
-                          title='Confusion matrix, without normalization')
-    plot_confusion_matrix(y, y_pred, classes=np.array(target_names), normalize=True, path='./images/LDA+SVM/img4.png',
-                          title='Normalized confusion matrix')
-    training_report = classification_report(y, y_pred, target_names=target_names)
-    print(training_report)
-    dataset = np.column_stack((tmp, X_r[:, [0, 1]]))
-    map = {}
-    map['training_report'] = training_report
-    map['accuracy'] = clf.score(X_r, y)
-    map['result'] = dataset
-    return map
+        from ml_data.SVM import plot_confusion_matrix
+        plot_confusion_matrix(y, y_pred, classes=np.array(target_names), path='./images/LDA+SVM/img3.png',
+                              title='Confusion matrix, without normalization')
+        plot_confusion_matrix(y, y_pred, classes=np.array(target_names), normalize=True, path='./images/LDA+SVM/img4.png',
+                              title='Normalized confusion matrix')
+        training_report = classification_report(y, y_pred, target_names=target_names)
+        print(training_report)
+        dataset = np.column_stack((tmp, X_r[:, [0, 1]]))
+        map = {}
+        map['training_report'] = training_report
+        map['accuracy'] = clf.score(X_r, y)
+        map['result'] = dataset
+        return map
+    else:
+        dataset = np.column_stack((tmp, X_r))
+        return dataset
 
 # LDA+ANN
 def lda2(data_path, prediction=False):

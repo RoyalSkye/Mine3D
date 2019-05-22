@@ -230,7 +230,7 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 reply = QMessageBox.warning(self, 'Message', '<font color="black">表格生成错误，请检查数据格式！', QMessageBox.Ok,
                                             QMessageBox.Ok)
         else:
-            reply = QMessageBox.warning(self, 'Message', '<font color="black">不支持的文件格式！', QMessageBox.Ok, QMessageBox.Ok)
+            reply = QMessageBox.warning(self, 'Message', '<font color="black">！', QMessageBox.Ok, QMessageBox.Ok)
 
     def initEmailBox(self):
         from PyQt5.QtWidgets import QFileSystemModel
@@ -480,6 +480,8 @@ class MainWindow(QMainWindow, Ui_QUICreator):
                 print("prediction catch exception")
                 reply = QMessageBox.warning(self, 'Message', '<font color="black">未训练该类模型或预测数据错误！', QMessageBox.Ok,
                                             QMessageBox.Ok)
+                e = Exception("数据处理错误")
+                raise e
             else:
                 result = map["result"]
                 import shutil
@@ -1158,10 +1160,10 @@ class MainWindow(QMainWindow, Ui_QUICreator):
             elif model == 3:
                 map = tensorflow1.tensorflow_ann(filepath)
         except:
-            self.importStatus.setText("Error: SVM数据处理错误，请检查文件数据格式！")
-            print("catch exception: SVM数据处理错误")
+            self.importStatus.setText("Error: 数据处理错误，请检查文件数据格式！")
+            print("catch exception: 数据处理错误")
             helper.threadpool = []
-            e = Exception("SVM数据处理错误")
+            e = Exception("数据处理错误")
             raise e
         else:
             import shutil
